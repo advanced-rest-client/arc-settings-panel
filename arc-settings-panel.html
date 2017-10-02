@@ -51,9 +51,9 @@ Custom property | Description | Default
       display: none !important;
     }
     </style>
-    <arc-data-settings-panel cookie-storage="{{cookieStorage}}" hidden$="[[isSubpage]]"></arc-data-settings-panel>
-    <arc-request-settings-panel request-timeout="{{requestTimeout}}" variables-enabled="{{variablesEnabled}}" page="{{_requestSubpage}}"></arc-request-settings-panel>
-    <arc-privacy-settings-panel analytics-enabled="{{analyticsEnabled}}" hidden$="[[isSubpage]]"></arc-privacy-settings-panel>
+    <arc-data-settings-panel cookie-storage="{{cookieStorage}}" hidden$="[[hideData]]" page="{{_dataSubpage}}"></arc-data-settings-panel>
+    <arc-request-settings-panel request-timeout="{{requestTimeout}}" hidden$="[[hideRequest]]" variables-enabled="{{variablesEnabled}}" page="{{_requestSubpage}}"></arc-request-settings-panel>
+    <arc-privacy-settings-panel analytics-enabled="{{analyticsEnabled}}" hidden$="[[hidePrivacy]]"></arc-privacy-settings-panel>
   </template>
   <script>
   Polymer({
@@ -89,8 +89,21 @@ Custom property | Description | Default
       _requestSubpage: {
         type: Number
       },
-      // Computed value. True if the request panel displays a sub menu.
-      isSubpage: {
+      _dataSubpage: Number,
+      // Computed value. True if the request panel should not be rendered
+      hideRequest: {
+        type: Boolean,
+        value: false,
+        readOnly: true
+      },
+      // Computed value. True if the data panel should not be rendered
+      hideData: {
+        type: Boolean,
+        value: false,
+        readOnly: true
+      },
+      // Computed value. True if the privacy panel should not be rendered
+      hidePrivacy: {
         type: Boolean,
         value: false,
         readOnly: true
@@ -98,7 +111,7 @@ Custom property | Description | Default
     },
 
     observers: [
-      '_subpageChanged(_requestSubpage)'
+      '_subpageChanged(_requestSubpage, _dataSubpage)'
     ],
 
     ready: function() {
@@ -246,8 +259,13 @@ Custom property | Description | Default
       }
     },
     // Computes `isSubpage` property
-    _subpageChanged: function(request) {
-      this._setIsSubpage(request > 0);
+    _subpageChanged: function(request, data) {
+      var requestState = data !== 0;
+      var dataState = request !== 0;
+      var privacyState = request !== 0 || data !== 0;
+      this._setHideRequest(requestState);
+      this._setHideData(dataState);
+      this._setHidePrivacy(privacyState);
     }
   });
   </script>
