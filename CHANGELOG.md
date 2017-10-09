@@ -1,3 +1,13 @@
+<a name="0.1.4"></a>
+## [0.1.4](https://github.com/advanced-rest-client/arc-settings-panel/compare/0.1.3...0.1.4) (2017-10-09)
+
+
+### New
+
+* Added openable panel behavior ([262d45538028388dc0084d034d9b34baed6dbc29](https://github.com/advanced-rest-client/arc-settings-panel/commit/262d45538028388dc0084d034d9b34baed6dbc29))
+
+
+
 <a name="0.1.3"></a>
 ## [0.1.3](https://github.com/advanced-rest-client/arc-settings-panel/compare/0.1.2...0.1.3) (2017-10-02)
 
