@@ -17,6 +17,7 @@
   "mocha": true,
   "globals": {
     "Polymer": true,
-    "PouchDB": true
+    "PouchDB": true,
+    "ArcBehaviors": true
   }
 }

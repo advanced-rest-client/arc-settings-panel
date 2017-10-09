@@ -23,7 +23,8 @@
     "arc-privacy-settings-panel": "advanced-rest-client/arc-privacy-settings-panel#^0.1.1",
     "arc-request-settings-panel": "advanced-rest-client/arc-request-settings-panel#^0.1.1",
     "arc-data-settings-panel": "advanced-rest-client/arc-data-settings-panel#^0.1.1",
-    "app-pouchdb": "advanced-rest-client/app-pouchdb#^1.0.0"
+    "app-pouchdb": "advanced-rest-client/app-pouchdb#^1.0.0",
+    "openable-panel-behavior": "advanced-rest-client/openable-panel-behavior#^0.1.2"
   },
   "devDependencies": {
     "iron-component-page": "polymerelements/iron-component-page#1.0.0",
