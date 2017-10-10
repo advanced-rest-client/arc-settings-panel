@@ -113,27 +113,37 @@ Custom property | Description | Default
         type: Boolean,
         value: false,
         readOnly: true
-      }
+      },
+      // Determines if the element is already attached to the DOM.
+      _inDom: Boolean
     },
 
     observers: [
       '_subpageChanged(_requestSubpage, _dataSubpage)',
-      '_refresh(_isOpened)'
+      '_refresh(_isOpened, _inDom)'
     ],
 
-    _attachListeners: function() {
-      this.listen(window, 'settings-changed', '_changedHandler');
+    attached: function() {
+      this._inDom = true;
     },
 
     detached: function() {
       this._detachListeners();
+      this._inDom = false;
+    },
+
+    _attachListeners: function() {
+      this.listen(window, 'settings-changed', '_changedHandler');
     },
 
     _detachListeners: function() {
       this.unlisten(window, 'settings-changed', '_changedHandler');
     },
 
-    _refresh: function(opened) {
+    _refresh: function(opened, _inDom) {
+      if (!_inDom) {
+        return;
+      }
       if (!opened) {
         this._detachListeners();
         return;
