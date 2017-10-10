@@ -32,7 +32,8 @@ window.chrome.storage.sync.get = function(property, callback) {
       'HISTORY_ENABLED': true,
       'MAGICVARS_ENABLED': true,
       'useCookieStorage': true,
-      'requestDefaultTimeout': 45
+      'requestDefaultTimeout': 45,
+      'telemetry': true
     });
   }, 1);
 };
