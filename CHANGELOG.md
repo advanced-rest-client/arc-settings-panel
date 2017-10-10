@@ -1,3 +1,15 @@
+<a name="0.2.1"></a>
+## [0.2.1](https://github.com/advanced-rest-client/arc-settings-panel/compare/0.1.5...0.2.1) (2017-10-10)
+
+
+### Update
+
+* Updated analytics settings to new system. ([886be857de14180e86c8e6420c9f65d431677107](https://github.com/advanced-rest-client/arc-settings-panel/commit/886be857de14180e86c8e6420c9f65d431677107))
+* Updated initialization of the element ([c51b1549d2575144d974203612bad8274c006463](https://github.com/advanced-rest-client/arc-settings-panel/commit/c51b1549d2575144d974203612bad8274c006463))
+* Updated version of the privacy settings panel ([ff15df329c7f51c86d30a03833455e1e1779148c](https://github.com/advanced-rest-client/arc-settings-panel/commit/ff15df329c7f51c86d30a03833455e1e1779148c))
+
+
+
 <a name="0.1.5"></a>
 ## [0.1.5](https://github.com/advanced-rest-client/arc-settings-panel/compare/0.1.4...0.1.5) (2017-10-09)
 
