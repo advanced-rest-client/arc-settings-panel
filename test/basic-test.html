@@ -25,8 +25,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <test-fixture id="basic">
       <template>
-        <arc-settings-panel></arc-settings-panel>
         <arc-chrome-settings></arc-chrome-settings>
+        <arc-settings-panel></arc-settings-panel>
       </template>
     </test-fixture>
 
@@ -36,7 +36,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       var element;
       setup(function(done) {
-        element = fixture('basic')[0];
+        element = fixture('basic')[1];
         element.addEventListener('initial-read-changed', function(e) {
           if (e.detail.value) {
             done();
@@ -91,6 +91,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         assert.typeOf(eventData, 'object');
         assert.equal(called, 1);
         assert.equal(eventData.name, 'useCookieStorage');
+        assert.isFalse(eventData.value);
+      });
+
+      test('Sends change event for telemetry change', function() {
+        var eventData;
+        var called = 0;
+        function clb(e) {
+          eventData = e.detail;
+          called++;
+        }
+        element.addEventListener('settings-changed', clb);
+        element.telemetry = false;
+        element.removeEventListener('settings-changed', clb);
+
+        assert.typeOf(eventData, 'object');
+        assert.equal(called, 1);
+        assert.equal(eventData.name, 'telemetry');
         assert.isFalse(eventData.value);
       });
     });
