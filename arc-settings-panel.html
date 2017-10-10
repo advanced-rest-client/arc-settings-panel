@@ -54,7 +54,7 @@ Custom property | Description | Default
     </style>
     <arc-data-settings-panel cookie-storage="{{cookieStorage}}" hidden$="[[hideData]]" page="{{_dataSubpage}}"></arc-data-settings-panel>
     <arc-request-settings-panel request-timeout="{{requestTimeout}}" hidden$="[[hideRequest]]" variables-enabled="{{variablesEnabled}}" page="{{_requestSubpage}}"></arc-request-settings-panel>
-    <arc-privacy-settings-panel analytics-enabled="{{analyticsEnabled}}" hidden$="[[hidePrivacy]]"></arc-privacy-settings-panel>
+    <arc-privacy-settings-panel telemetry="{{telemetry}}" hidden$="[[hidePrivacy]]"></arc-privacy-settings-panel>
   </template>
   <script>
   Polymer({
@@ -80,7 +80,11 @@ Custom property | Description | Default
         value: true
       },
       // Google Analytics setting
-      analyticsEnabled: Boolean,
+      telemetry: {
+        type: Boolean,
+        observer: '_telemetryChanged',
+        value: true
+      },
       // Cookie store setting
       cookieStorage: {
         type: Boolean,
@@ -113,29 +117,31 @@ Custom property | Description | Default
     },
 
     observers: [
-      '_subpageChanged(_requestSubpage, _dataSubpage)'
+      '_subpageChanged(_requestSubpage, _dataSubpage)',
+      '_refresh(_isOpened)'
     ],
-
-    ready: function() {
-      this._readAnalyticsState();
-    },
-
-    attached: function() {
-      Polymer.RenderStatus.afterNextRender(this, function() {
-        this._readSettings();
-        this._attachListeners();
-      });
-    },
 
     _attachListeners: function() {
       this.listen(window, 'settings-changed', '_changedHandler');
-      this.listen(window, 'analytics-permitted-changed', '_analyticsChangedHandler');
     },
 
     detached: function() {
-      this.unlisten(window, 'settings-changed', '_changedHandler');
-      this.unlisten(window, 'analytics-permitted-changed', '_analyticsChangedHandler');
+      this._detachListeners();
     },
+
+    _detachListeners: function() {
+      this.unlisten(window, 'settings-changed', '_changedHandler');
+    },
+
+    _refresh: function(opened) {
+      if (!opened) {
+        this._detachListeners();
+        return;
+      }
+      this._readSettings();
+      this._attachListeners();
+    },
+
     // Sends `settings-read` event to request for current settings state from
     // settings provider
     _readSettings: function() {
@@ -180,6 +186,12 @@ Custom property | Description | Default
             this.set('requestTimeout', value);
           }
           break;
+        case 'telemetry':
+          value = this._boolValue(value);
+          if (this.telemetry !== value) {
+            this.set('telemetry', value);
+          }
+          break;
       }
     },
     // Returns a boolean value for the `value`
@@ -200,24 +212,6 @@ Custom property | Description | Default
         return 0;
       }
       return val;
-    },
-    // Reads Google Analytics settings which are kept is separate data store
-    _readAnalyticsState: function() {
-      var db = new PouchDB('analytics-meta');
-      db.get('metadata')
-      .then(doc => {
-        if (doc.disableTracking === false || doc.disableTracking === 'false') {
-          this.set('analyticsEnabled', false);
-        } else {
-          this.set('analyticsEnabled', true);
-        }
-      })
-      .catch(e => {
-        if (e.status === 404) {
-          return this.set('analyticsEnabled', true);
-        }
-        throw e;
-      });
     },
     // Sends `settings-changed` event when value in the UI change.
     _updateSetting: function(key, value, oldValue) {
@@ -247,18 +241,18 @@ Custom property | Description | Default
       this._updateSetting('MAGICVARS_ENABLED', value, oldValue);
     },
 
+    _telemetryChanged: function(value, oldValue) {
+      if (oldValue === undefined || !this.initialRead) {
+        return;
+      }
+      this._updateSetting('telemetry', value, oldValue);
+    },
+
     _cookiesChanged: function(value, oldValue) {
       if (oldValue === undefined || !this.initialRead) {
         return;
       }
       this._updateSetting('useCookieStorage', value, oldValue);
-    },
-    // Handler for the `analytics-permitted-changed` event.
-    _analyticsChangedHandler: function(e) {
-      var permitted = e.detail.permitted;
-      if (permitted !== this.analyticsEnabled) {
-        this.set('analyticsEnabled', permitted);
-      }
     },
     // Computes `isSubpage` property
     _subpageChanged: function(request, data) {
