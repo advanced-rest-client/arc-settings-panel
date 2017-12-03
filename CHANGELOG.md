@@ -1,3 +1,13 @@
+<a name="0.2.3"></a>
+## [0.2.3](https://github.com/advanced-rest-client/arc-settings-panel/compare/0.2.2...0.2.3) (2017-12-03)
+
+
+### Update
+
+* Adding light DOM access. ([accac4f3f480d414640607f790bc400cdd982611](https://github.com/advanced-rest-client/arc-settings-panel/commit/accac4f3f480d414640607f790bc400cdd982611))
+
+
+
 <a name="0.2.2"></a>
 ## [0.2.2](https://github.com/advanced-rest-client/arc-settings-panel/compare/0.2.1...0.2.2) (2017-10-10)
 
