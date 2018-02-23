@@ -1,3 +1,13 @@
+<a name="0.2.5"></a>
+## [0.2.5](https://github.com/advanced-rest-client/arc-settings-panel/compare/0.2.4...0.2.5) (2018-02-23)
+
+
+### Update
+
+* Ensured change event is dispatech only if needed. ([5df96026e70808e85208a6c22f39ff44aed35c5b](https://github.com/advanced-rest-client/arc-settings-panel/commit/5df96026e70808e85208a6c22f39ff44aed35c5b))
+
+
+
 <a name="0.2.4"></a>
 ## [0.2.4](https://github.com/advanced-rest-client/arc-settings-panel/compare/0.2.3...0.2.4) (2017-12-03)
 
