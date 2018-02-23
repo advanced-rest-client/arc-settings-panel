@@ -35,13 +35,13 @@ window.chrome.storage.sync.get = function(property, callback) {
       'requestDefaultTimeout': 45,
       'telemetry': true
     });
-  }, 1);
+  }, 10);
 };
 
 window.chrome.storage.sync.set = function(obj, callback) {
   setTimeout(function() {
     var changes = {};
-    Object.keys(obj).forEach(key => {
+    Object.keys(obj).forEach((key) => {
       changes[key] = {newValue: obj[key]};
     });
     window.chrome.storage.onChanged.nofifyListeners(changes, 'sync');

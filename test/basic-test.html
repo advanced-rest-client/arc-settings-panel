@@ -31,7 +31,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </test-fixture>
 
     <script>
-    /* global fixture, assert */
+    /* global fixture, assert, sinon */
     suite('basic', function() {
 
       var element;
@@ -109,6 +109,64 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         assert.equal(called, 1);
         assert.equal(eventData.name, 'telemetry');
         assert.isFalse(eventData.value);
+      });
+    });
+
+    suite('Events', function() {
+      var element;
+      suite('Initialization', function() {
+        setup(function() {
+          element = fixture('basic')[1];
+        });
+
+        test('Does not fire change events when loading data', function(done) {
+          var spy = sinon.spy();
+          element.addEventListener('settings-changed', spy);
+          element.addEventListener('initial-read-changed', function handler(e) {
+            if (!e.detail.value) {
+              return;
+            }
+            element.removeEventListener('initial-read-changed', handler);
+            assert.equal(spy.callCount, 0);
+            done();
+          });
+        });
+      });
+
+      suite('External events', function() {
+        setup(function(done) {
+          element = fixture('basic')[1];
+          element.addEventListener('initial-read-changed', function(e) {
+            if (e.detail.value) {
+              done();
+            }
+          });
+        });
+
+        function dispatch(key, value) {
+          let event = new CustomEvent('settings-changed', {
+            detail: {
+              name: key,
+              value: value,
+              area: 'local'
+            },
+            cancelable: false,
+            bubbles: true
+          });
+          document.body.dispatchEvent(event);
+        }
+
+        test('Updates property value from external event', function() {
+          dispatch('requestDefaultTimeout', 1234);
+          assert.equal(element.requestTimeout, 1234);
+        });
+
+        test('Does not fire change event', function() {
+          var spy = sinon.spy();
+          element.addEventListener('settings-changed', spy);
+          dispatch('requestDefaultTimeout', 9876);
+          assert.equal(spy.callCount, 0);
+        });
       });
     });
     </script>
