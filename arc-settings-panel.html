@@ -172,12 +172,16 @@ Custom property | Description | Default
     },
     // Handler for the `settings-changed`. Maps store values to local variables
     _changedHandler: function(e) {
+      if (e.target === this || e.cancelable) {
+        return;
+      }
       this._processValue(e.detail.name, e.detail.value);
     },
     /**
      * Processes a store value by mapping the key to local variable
      */
     _processValue: function(name, value) {
+      this._cancelChangeEvent = true;
       switch (name) {
         case 'MAGICVARS_ENABLED':
           value = this._boolValue(value);
@@ -204,6 +208,7 @@ Custom property | Description | Default
           }
           break;
       }
+      this._cancelChangeEvent = false;
     },
     // Returns a boolean value for the `value`
     _boolValue: function(value) {
@@ -226,6 +231,9 @@ Custom property | Description | Default
     },
     // Sends `settings-changed` event when value in the UI change.
     _updateSetting: function(key, value, oldValue) {
+      if (this._cancelChangeEvent || !this.initialRead) {
+        return;
+      }
       var event = this.fire('settings-changed', {
         name: key,
         value: value
@@ -239,28 +247,28 @@ Custom property | Description | Default
     },
 
     _timeoutChanged: function(value, oldValue) {
-      if (oldValue === undefined || !this.initialRead) {
+      if (oldValue === undefined) {
         return;
       }
       this._updateSetting('requestDefaultTimeout', value, oldValue);
     },
 
     _variableChanged: function(value, oldValue) {
-      if (oldValue === undefined || !this.initialRead) {
+      if (oldValue === undefined) {
         return;
       }
       this._updateSetting('MAGICVARS_ENABLED', value, oldValue);
     },
 
     _telemetryChanged: function(value, oldValue) {
-      if (oldValue === undefined || !this.initialRead) {
+      if (oldValue === undefined) {
         return;
       }
       this._updateSetting('telemetry', value, oldValue);
     },
 
     _cookiesChanged: function(value, oldValue) {
-      if (oldValue === undefined || !this.initialRead) {
+      if (oldValue === undefined) {
         return;
       }
       this._updateSetting('useCookieStorage', value, oldValue);
