@@ -1,21 +1,26 @@
-[![Build Status](https://travis-ci.org/advanced-rest-client/arc-settings-panel.svg?branch=stage)](https://travis-ci.org/advanced-rest-client/arc-settings-panel)  
+[![Build Status](https://travis-ci.org/advanced-rest-client/api-url-data-model.svg?branch=stage)](https://travis-ci.org/advanced-rest-client/arc-settings-panel)
+
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/advanced-rest-client/arc-settings-panel)
 
 # arc-settings-panel
 
-Settings panel for ARC.
+Settings panel for ARC
 
-This elemet and whole settings data system must change so there's no point
-of documenting it right now.
-
-### Example
+<!---
 ```
+<custom-element-demo>
+  <template>
+    <link rel="import" href="arc-settings-panel.html">
+    <next-code-block></next-code-block>
+  </template>
+</custom-element-demo>
+```
+-->
+
+```html
 <arc-settings-panel></arc-settings-panel>
 ```
 
-### Styling
-`<arc-settings-panel>` provides the following custom properties and mixins for styling:
+### API components
 
-Custom property | Description | Default
-----------------|-------------|----------
-`--arc-settings-panel` | Mixin applied to the element | `{}`
-
+This components is a part of API components ecosystem: https://elements.advancedrestclient.com/

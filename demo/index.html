@@ -1,50 +1,81 @@
 <!doctype html>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
 <html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-
   <title>arc-settings-panel demo</title>
-
-  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-
+  <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+  <link rel="import" href="../../shadycss/apply-shim.html">
+  <link rel="import" href="../../polymer/lib/elements/custom-style.html">
+  <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
+  <link rel="import" href="../../app-pouchdb/pouchdb.html">
   <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
   <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-  <link rel="import" href="../../arc-chrome-settings/arc-chrome-settings.html">
   <link rel="import" href="../../arc-data-export/arc-data-export.html">
-
-  <script src="../test/stub.js"></script>
+  <link rel="import" href="../../arc-models/arc-models.html">
+  <link rel="import" href="../../arc-models/auth-data-model.html">
+  <link rel="import" href="../../arc-models/host-rules-model.html">
+  <link rel="import" href="../../paper-toast/paper-toast.html">
+  <link rel="import" href="../../arc-electron-default-theme/arc-electron-default-theme.html">
+  <link rel="import" href="../../neon-animation/web-animations.html">
   <link rel="import" href="../arc-settings-panel.html">
-
-  <style is="custom-style" include="demo-pages-shared-styles">
-
-    .vertical-section-container {
-      max-width: 600px;
-    }
-
+  <style>
+  body,
+  html {
+    background-color: #e5e5e5 !important;
+    margin: 0;
+    padding: 0;
+  }
+  .centered {
+    background-color: #fff;
+    padding: 24px;
+  }
   </style>
+  <custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles"></style>
+  </custom-style>
 </head>
 <body unresolved>
-  <div class="vertical-section-container centered">
-    <h3>The `arc-settings-panel`</h3>
-    <demo-snippet>
-      <template>
-        <arc-chrome-settings></arc-chrome-settings>
+  <dom-bind id="demo">
+    <template>
+      <arc-data-export></arc-data-export>
+      <project-model></project-model>
+      <request-model></request-model>
+      <auth-data-model></auth-data-model>
+      <url-history-model></url-history-model>
+      <websocket-url-history-model></websocket-url-history-model>
+      <rest-api-model></rest-api-model>
+      <variables-model></variables-model>
+      <host-rules-model></host-rules-model>
+
+      <div class="vertical-section-container centered">
         <arc-settings-panel></arc-settings-panel>
-        <arc-data-export></arc-data-export>
-        <app-analytics tracking-id="UA-XXXXXXX-Y" app-name="my app" app-version="1.0.0" data-source="app-analytics element"></app-analytics>
-      </template>
-    </demo-snippet>
-  </div>
+      </div>
+
+      <paper-toast text="Drive export requested" id="driveToast"></paper-toast>
+      <paper-toast text="File export requested" id="fileToast"></paper-toast>
+    </template>
+  </dom-bind>
+  <script>
+  (function(scope) {
+    scope._fileExportHandler = function(e) {
+      e.preventDefault();
+      e.detail.result = new Promise((resolve) => {
+        setTimeout(() => resolve(), 1000);
+      });
+      scope.$.fileToast.opened = true;
+    };
+    scope._driveExportHandler = function(e) {
+      e.preventDefault();
+      e.detail.result = new Promise((resolve) => {
+        setTimeout(() => resolve(), 1000);
+      });
+      scope.$.driveToast.opened = true;
+    };
+    window.addEventListener('file-data-save', scope._fileExportHandler);
+    window.addEventListener('google-drive-data-save', scope._driveExportHandler);
+  })(document.getElementById('demo'));
+  </script>
 </body>
 </html>

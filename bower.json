@@ -1,9 +1,10 @@
 {
   "name": "arc-settings-panel",
   "description": "Settings panel for ARC",
-  "version": "0.2.6",
-  "license": "Apache-2.0 OR CC-BY-4.0",
+  "version": "2.0.0-preview",
+  "license": "Apache-2.0",
   "authors": [
+    "Pawel Psztyc",
     "The Advanced REST client authors <arc@mulesoft.com>"
   ],
   "keywords": [
@@ -11,36 +12,31 @@
     "polymer"
   ],
   "private": true,
-  "main": [
-    "arc-settings-panel.html"
-  ],
+  "main": "arc-settings-panel.html",
   "repository": {
     "type": "git",
     "url": "git@github.com:advanced-rest-client/arc-settings-panel.git"
   },
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.9.2",
-    "arc-privacy-settings-panel": "advanced-rest-client/arc-privacy-settings-panel#^0.2.2",
-    "arc-request-settings-panel": "advanced-rest-client/arc-request-settings-panel#^0.1.1",
-    "arc-data-settings-panel": "advanced-rest-client/arc-data-settings-panel#^0.1.1",
-    "app-pouchdb": "advanced-rest-client/app-pouchdb#^1.0.0",
-    "openable-panel-behavior": "advanced-rest-client/openable-panel-behavior#^0.1.2"
+    "polymer": "Polymer/polymer#^2.0.0",
+    "arc-privacy-settings-panel": "advanced-rest-client/arc-privacy-settings-panel#2.0.0-preview",
+    "arc-request-settings-panel": "advanced-rest-client/arc-request-settings-panel#2.0.0-preview",
+    "arc-data-settings-panel": "advanced-rest-client/arc-data-settings-panel#2.0.0-preview"
   },
   "devDependencies": {
-    "iron-component-page": "polymerelements/iron-component-page#1.0.0",
-    "web-component-tester": "^6.0.0",
-    "paper-styles": "polymerelements/paper-styles#^1.0.2",
-    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
-    "iron-test-helpers": "PolymerElements/iron-test-helpers#^1.4.0",
-    "test-fixture": "PolymerElements/test-fixture#^3.0.0",
-    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0",
-    "arc-chrome-settings": "advanced-rest-client/arc-chrome-settings#^0.1.1",
-    "app-analytics": "advanced-rest-client/app-analytics#^1.0.16",
-    "arc-data-export": "advanced-rest-client/arc-data-export#^0.1.5"
+    "iron-component-page": "PolymerElements/iron-component-page#^3.0.1",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#^2.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0",
+    "arc-data-export": "advanced-rest-client/arc-data-export#2.0.0-preview",
+    "app-pouchdb": "PolymerElements/app-pouchdb#^2.1.1",
+    "arc-electron-default-theme": "advanced-rest-client/arc-electron-default-theme#2.0.0-preview",
+    "web-animations-js": "web-animations/web-animations-js#^2.3",
+    "arc-models": "advanced-rest-client/arc-models#2.0.0-preview"
   },
   "ignore": [
     "**/.*",
-    "dependencyci.yml",
     "node_modules",
     "bower_components",
     "test",

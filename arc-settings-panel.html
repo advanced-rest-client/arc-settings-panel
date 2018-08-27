@@ -1,6 +1,6 @@
 <!--
 @license
-Copyright 2016 The Advanced REST client authors <arc@mulesoft.com>
+Copyright 2018 The Advanced REST client authors <arc@mulesoft.com>
 Licensed under the Apache License, Version 2.0 (the "License"); you may not
 use this file except in compliance with the License. You may obtain a copy of
 the License at
@@ -11,12 +11,10 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 -->
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../arc-request-settings-panel/arc-request-settings-panel.html">
 <link rel="import" href="../arc-data-settings-panel/arc-data-settings-panel.html">
 <link rel="import" href="../arc-privacy-settings-panel/arc-privacy-settings-panel.html">
-<link rel="import" href="../app-pouchdb/pouchdb.html">
-<link rel="import" href="../openable-panel-behavior/openable-panel-behavior.html">
 
 <!--
 Settings panel for ARC.
@@ -52,15 +50,14 @@ Custom property | Description | Default
       display: none !important;
     }
     </style>
-    <arc-data-settings-panel cookie-storage="{{cookieStorage}}" hidden$="[[hideData]]" page="{{_dataSubpage}}"></arc-data-settings-panel>
-    <arc-request-settings-panel request-timeout="{{requestTimeout}}" hidden$="[[hideRequest]]" variables-enabled="{{variablesEnabled}}" page="{{_requestSubpage}}"></arc-request-settings-panel>
+    <arc-request-settings-panel request-timeout="{{requestTimeout}}" hidden$="[[hideRequest]]" variables-enabled="{{variablesEnabled}}"></arc-request-settings-panel>
+    <arc-data-settings-panel></arc-data-settings-panel>
     <arc-privacy-settings-panel telemetry="{{telemetry}}" hidden$="[[hidePrivacy]]"></arc-privacy-settings-panel>
-    <content></content>
+    <slot></slot>
   </template>
   <script>
   Polymer({
     is: 'arc-settings-panel',
-    behaviors: [ArcBehaviors.OpenablePanelBehavior],
     properties: {
       // True when initial settings state has been read and set.
       initialRead: {
