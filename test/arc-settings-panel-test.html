@@ -6,12 +6,41 @@
   <title>arc-settings-panel test</title>
   <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
   <script src="../../web-component-tester/browser.js"></script>
+  <link rel="import" href="../../arc-local-store-preferences/arc-local-store-preferences.html">
   <link rel="import" href="../arc-settings-panel.html">
 </head>
 <body>
-  <test-fixture id="Basic">
+  <arc-local-store-preferences></arc-local-store-preferences>
+
+  <test-fixture id="Manual">
+    <template>
+      <arc-settings-panel manual></arc-settings-panel>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="Auto">
     <template>
       <arc-settings-panel></arc-settings-panel>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="Custom">
+    <template>
+      <arc-settings-panel>
+        <div data-title="Custom">
+          <p>This is custom panel</p>
+        </div>
+      </arc-settings-panel>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="CustomError">
+    <template>
+      <arc-settings-panel>
+        <div>
+          <p>This is custom panel</p>
+        </div>
+      </arc-settings-panel>
     </template>
   </test-fixture>
 
@@ -19,11 +48,66 @@
   suite('arc-settings-panel', () => {
     let element;
     setup(() => {
-      element = fixture('Basic');
+      element = fixture('Manual');
     });
 
     test('Initializes the element', () => {
       assert.ok(element);
+    });
+  });
+
+  suite('Custom panels', () => {
+    test('Adds custom panel to the menu list', (done) => {
+      const element = fixture('Custom');
+      flush(() => {
+        assert.typeOf(element.customTabs, 'array');
+        assert.lengthOf(element.customTabs, 1);
+        assert.equal(element.customTabs[0], 'Custom');
+        done();
+      });
+    });
+
+    test('Ignores elements without data-title', (done) => {
+      const element = fixture('CustomError');
+      flush(() => {
+        assert.isUndefined(element.customTabs);
+        done();
+      });
+    });
+  });
+
+  suite('Auto reading settings', () => {
+    let element;
+    setup(() => {
+      const node = document.querySelector('arc-local-store-preferences');
+      node.clear();
+    });
+
+    teardown(() => {
+      const node = document.querySelector('arc-local-store-preferences');
+      node.clear();
+    });
+
+    test('Dispatches settings-read', (done) => {
+      window.addEventListener('settings-read', function f() {
+        window.removeEventListener('settings-read', f);
+        done();
+      });
+      element = fixture('Auto');
+    });
+
+    test('Do not dispatches settings-changed when restoring data', (done) => {
+      let called = false;
+      const f = function() {
+        called = true;
+      };
+      element = fixture('Auto');
+      element.addEventListener('settings-changed', f);
+      setTimeout(() => {
+        element.removeEventListener('settings-changed', f);
+        assert.isFalse(called);
+        done();
+      }, 500);
     });
   });
   </script>

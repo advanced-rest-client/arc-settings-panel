@@ -18,7 +18,9 @@
   <link rel="import" href="../../arc-models/host-rules-model.html">
   <link rel="import" href="../../paper-toast/paper-toast.html">
   <link rel="import" href="../../arc-electron-default-theme/arc-electron-default-theme.html">
+  <link rel="import" href="../../arc-local-store-preferences/arc-local-store-preferences.html">
   <link rel="import" href="../../neon-animation/web-animations.html">
+  <link rel="import" href="../../paper-toggle-button/paper-toggle-button.html">
   <link rel="import" href="../arc-settings-panel.html">
   <style>
   body,
@@ -27,9 +29,10 @@
     margin: 0;
     padding: 0;
   }
-  .centered {
+  .centered.demo {
     background-color: #fff;
     padding: 24px;
+    max-width: 1000px;
   }
   </style>
   <custom-style>
@@ -48,10 +51,25 @@
       <rest-api-model></rest-api-model>
       <variables-model></variables-model>
       <host-rules-model></host-rules-model>
+      <arc-local-store-preferences></arc-local-store-preferences>
 
-      <div class="vertical-section-container centered">
-        <arc-settings-panel></arc-settings-panel>
-      </div>
+      <section class="centered demo">
+        <h2>Panel options</h2>
+        <paper-toggle-button checked="{{narrow}}">Narrow view</paper-toggle-button>
+        <paper-toggle-button checked="{{sslDisabled}}">SSL disabled</paper-toggle-button>
+        <paper-toggle-button checked="{{systemVariablesDisabled}}">System variables disabled</paper-toggle-button>
+      </section>
+
+      <section class="centered demo" rel="main">
+        <arc-settings-panel narrow="[[narrow]]" ssl-disabled="[[sslDisabled]]" system-variables-disabled="[[systemVariablesDisabled]]">
+          <div data-title="Custom">
+            <p>This is custom panel</p>
+          </div>
+          <div data-title="Other">
+            <p>This is other custom panel</p>
+          </div>
+        </arc-settings-panel>
+      </section>
 
       <paper-toast text="Drive export requested" id="driveToast"></paper-toast>
       <paper-toast text="File export requested" id="fileToast"></paper-toast>

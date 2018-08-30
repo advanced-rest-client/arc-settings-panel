@@ -12,32 +12,16 @@ License for the specific language governing permissions and limitations under
 the License.
 -->
 <link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../polymer/lib/utils/flattened-nodes-observer.html">
 <link rel="import" href="../arc-request-settings-panel/arc-request-settings-panel.html">
 <link rel="import" href="../arc-data-settings-panel/arc-data-settings-panel.html">
 <link rel="import" href="../arc-privacy-settings-panel/arc-privacy-settings-panel.html">
+<link rel="import" href="../arc-settings-panel-mixin/arc-settings-panel-mixin.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../iron-pages/iron-pages.html">
+<link rel="import" href="../paper-tabs/paper-tabs.html">
 
-<!--
-Settings panel for ARC.
-
-This elemet and whole settings data system must change so there's no point
-of documenting it right now.
-
-### Example
-```
-<arc-settings-panel></arc-settings-panel>
-```
-
-### Styling
-`<arc-settings-panel>` provides the following custom properties and mixins for styling:
-
-Custom property | Description | Default
-----------------|-------------|----------
-`--arc-settings-panel` | Mixin applied to the element | `{}`
-
-@group UI Elements
-@element arc-settings-panel
-@demo demo/index.html
--->
 <dom-module id="arc-settings-panel">
   <template>
     <style>
@@ -49,236 +33,185 @@ Custom property | Description | Default
     [hidden] {
       display: none !important;
     }
+
+    .container {
+      @apply --layout-horizontal;
+    }
+
+    :host([narrow]) .container {
+      @apply --layout-block;
+      display: block;
+    }
+
+    .main-panels {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    :host([narrow]) .main-panels {
+      max-width: 100%;
+    }
+
+    .nav {
+      width: 200px;
+      min-width: 120px;
+    }
+
+    .nav > paper-item {
+      cursor: pointer;
+      @apply --arc-font-menu;
+    }
     </style>
-    <arc-request-settings-panel request-timeout="{{requestTimeout}}" hidden$="[[hideRequest]]" variables-enabled="{{variablesEnabled}}"></arc-request-settings-panel>
-    <arc-data-settings-panel></arc-data-settings-panel>
-    <arc-privacy-settings-panel telemetry="{{telemetry}}" hidden$="[[hidePrivacy]]"></arc-privacy-settings-panel>
-    <slot></slot>
+    <div class="container">
+      <template is="dom-if" if="[[narrow]]" restamp>
+        <paper-tabs selected="{{selected}}">
+          <paper-tab>Request</paper-tab>
+          <paper-tab>Data</paper-tab>
+          <paper-tab>Privacy</paper-tab>
+          <template is="dom-repeat" items="[[customTabs]]">
+            <paper-tab>[[item]]</paper-tab>
+          </template>
+        </paper-tabs>
+      </template>
+      <template is="dom-if" if="[[!narrow]]" restamp>
+        <paper-listbox selected="{{selected}}" class="nav">
+          <paper-item>Request</paper-item>
+          <paper-item>Data</paper-item>
+          <paper-item>Privacy</paper-item>
+          <template is="dom-repeat" items="[[customTabs]]">
+            <paper-item>[[item]]</paper-item>
+          </template>
+        </paper-listbox>
+      </template>
+
+      <iron-pages class="main-panels" selected="[[selected]]">
+        <arc-request-settings-panel id="request" manual ssl-disabled="[[sslDisabled]]" system-variables-disabled="[[systemVariablesDisabled]]"></arc-request-settings-panel>
+        <arc-data-settings-panel id="data" manual></arc-data-settings-panel>
+        <arc-privacy-settings-panel id="privacy" manual privacy-policy-url="[[privacyPolicyUrl]]"></arc-privacy-settings-panel>
+        <slot id="slot"></slot>
+      </iron-pages>
+    </div>
   </template>
   <script>
-  Polymer({
-    is: 'arc-settings-panel',
-    properties: {
-      // True when initial settings state has been read and set.
-      initialRead: {
-        type: Boolean,
-        value: false,
-        notify: true
-      },
-      // Request timeout setting
-      requestTimeout: {
-        type: Number,
-        observer: '_timeoutChanged',
-        value: 45
-      },
-      // Variables enabled setting
-      variablesEnabled: {
-        type: Boolean,
-        observer: '_variableChanged',
-        value: true
-      },
-      // Google Analytics setting
-      telemetry: {
-        type: Boolean,
-        observer: '_telemetryChanged',
-        value: true
-      },
-      // Cookie store setting
-      cookieStorage: {
-        type: Boolean,
-        observer: '_cookiesChanged',
-        value: true
-      },
-      // currently selected subpage of the request settings
-      _requestSubpage: {
-        type: Number
-      },
-      _dataSubpage: Number,
-      // Computed value. True if the request panel should not be rendered
-      hideRequest: {
-        type: Boolean,
-        value: false,
-        readOnly: true
-      },
-      // Computed value. True if the data panel should not be rendered
-      hideData: {
-        type: Boolean,
-        value: false,
-        readOnly: true
-      },
-      // Computed value. True if the privacy panel should not be rendered
-      hidePrivacy: {
-        type: Boolean,
-        value: false,
-        readOnly: true
-      },
-      // Determines if the element is already attached to the DOM.
-      _inDom: Boolean
-    },
+  /**
+   * Settings panel for Advanced REST Client - electron app.
+   *
+   * It requires:
+   *
+   * - settings provider that handles `settings-read` and `settings-changed`
+   * custom events
+   * - all ARC models (required by data panel to clear data)
+   *
+   * @customElement
+   * @polymer
+   * @demo demo/index.html
+   * @memberof UiElements
+   * @appliesMixin ArcComponents.ArcSettingsPanelMixin
+   */
+  class ArcSettingsPanel extends ArcComponents.ArcSettingsPanelMixin(Polymer.Element) {
+    static get is() {return 'arc-settings-panel';}
 
-    observers: [
-      '_subpageChanged(_requestSubpage, _dataSubpage)',
-      '_refresh(_isOpened, _inDom)'
-    ],
-
-    attached: function() {
-      this._inDom = true;
-    },
-
-    detached: function() {
-      this._detachListeners();
-      this._inDom = false;
-    },
-
-    _attachListeners: function() {
-      this.listen(window, 'settings-changed', '_changedHandler');
-    },
-
-    _detachListeners: function() {
-      this.unlisten(window, 'settings-changed', '_changedHandler');
-    },
-
-    _refresh: function(opened, _inDom) {
-      if (!_inDom) {
-        return;
-      }
-      if (!opened) {
-        this._detachListeners();
-        return;
-      }
-      this._readSettings();
-      this._attachListeners();
-    },
-
-    // Sends `settings-read` event to request for current settings state from
-    // settings provider
-    _readSettings: function() {
-      var event = this.fire('settings-read', {}, {
-        composed: true,
-        cancelable: true
-      });
-      if (!event.defaultPrevented) {
-        throw new Error('Settings provided not found.');
-      }
-      event.detail.result.then(settings => this._processValues(settings));
-    },
-
-    _processValues: function(obj) {
-      Object.keys(obj).forEach(name => this._processValue(name, obj[name]));
-      this.initialRead = true;
-    },
-    // Handler for the `settings-changed`. Maps store values to local variables
-    _changedHandler: function(e) {
-      if (e.target === this || e.cancelable) {
-        return;
-      }
-      this._processValue(e.detail.name, e.detail.value);
-    },
-    /**
-     * Processes a store value by mapping the key to local variable
-     */
-    _processValue: function(name, value) {
-      this._cancelChangeEvent = true;
-      switch (name) {
-        case 'MAGICVARS_ENABLED':
-          value = this._boolValue(value);
-          if (this.variablesEnabled !== value) {
-            this.set('variablesEnabled', value);
-          }
-          break;
-        case 'useCookieStorage':
-          value = this._boolValue(value);
-          if (this.cookieStorage !== value) {
-            this.set('cookieStorage', value);
-          }
-          break;
-        case 'requestDefaultTimeout':
-          value = this._numValue(value);
-          if (this.requestTimeout !== value) {
-            this.set('requestTimeout', value);
-          }
-          break;
-        case 'telemetry':
-          value = this._boolValue(value);
-          if (this.telemetry !== value) {
-            this.set('telemetry', value);
-          }
-          break;
-      }
-      this._cancelChangeEvent = false;
-    },
-    // Returns a boolean value for the `value`
-    _boolValue: function(value) {
-      var type = typeof value;
-      if (type === 'boolean') {
-        return value;
-      }
-      if (type === 'string') {
-        return type === 'true' ? true : false;
-      }
-      return !!value;
-    },
-    // Returns a numeric value for the `value`
-    _numValue: function(val) {
-      val = Number(val);
-      if (val !== val) {
-        return 0;
-      }
-      return val;
-    },
-    // Sends `settings-changed` event when value in the UI change.
-    _updateSetting: function(key, value, oldValue) {
-      if (this._cancelChangeEvent || !this.initialRead) {
-        return;
-      }
-      var event = this.fire('settings-changed', {
-        name: key,
-        value: value
-      }, {
-        cancelable: true
-      });
-      if (!event.defaultPrevented) {
-        this._processValue(key, oldValue);
-        throw new Error('Settings provided not found.');
-      }
-    },
-
-    _timeoutChanged: function(value, oldValue) {
-      if (oldValue === undefined) {
-        return;
-      }
-      this._updateSetting('requestDefaultTimeout', value, oldValue);
-    },
-
-    _variableChanged: function(value, oldValue) {
-      if (oldValue === undefined) {
-        return;
-      }
-      this._updateSetting('MAGICVARS_ENABLED', value, oldValue);
-    },
-
-    _telemetryChanged: function(value, oldValue) {
-      if (oldValue === undefined) {
-        return;
-      }
-      this._updateSetting('telemetry', value, oldValue);
-    },
-
-    _cookiesChanged: function(value, oldValue) {
-      if (oldValue === undefined) {
-        return;
-      }
-      this._updateSetting('useCookieStorage', value, oldValue);
-    },
-    // Computes `isSubpage` property
-    _subpageChanged: function(request, data) {
-      var requestState = data !== 0;
-      var dataState = request !== 0;
-      var privacyState = request !== 0 || data !== 0;
-      this._setHideRequest(requestState);
-      this._setHideData(dataState);
-      this._setHidePrivacy(privacyState);
+    static get properties() {
+      return {
+        /**
+         * Currently selected settings panel.
+         */
+        selected: {
+          type: Number,
+          value: 0
+        },
+        /**
+         * When set it renders narrow view.
+         * It replaces side navigation with paper tabs
+         */
+        narrow: {type: Boolean, reflectToAttribute: true, value: false},
+        /**
+         * List of custom tabs added to the light DOM.
+         */
+        customTabs: {type: Array},
+        /**
+         * When set `validateCertificates` option in request settings is disabled.
+         * Chrome apps does not have this option.
+         */
+        sslDisabled: Boolean,
+        /**
+         * When set `systemVariables` options in request settings is disabled.
+         * Chrome apps does not have this option.
+         */
+        systemVariablesDisabled: Boolean,
+        /**
+         * A link to application privacy policy
+         */
+        privacyPolicyUrl: String
+      };
     }
-  });
+
+    connectedCallback() {
+      super.connectedCallback();
+      this._observer = new Polymer.FlattenedNodesObserver(this.$.slot, (info) => {
+        this._processNewNodes(info.addedNodes);
+        this._processRemovedNodes(info.removedNodes);
+      });
+    }
+
+    disconnectedCallback() {
+      super.disconnectedCallback();
+      this._observer.disconnect();
+    }
+
+    _processNewNodes(nodes) {
+      if (!nodes) {
+        return;
+      }
+      nodes = nodes.filter((node) => node.nodeType === Node.ELEMENT_NODE);
+      if (!nodes.length) {
+        return;
+      }
+      for (let i = 0, len = nodes.length; i < len; i++) {
+        if (nodes[i].dataset.title) {
+          if (!this.customTabs) {
+            this.set('customTabs', [nodes[i].dataset.title]);
+          } else {
+            this.push('customTabs', [nodes[i].dataset.title]);
+          }
+        }
+      }
+    }
+
+    _processRemovedNodes(nodes) {
+      const titles = this.customTabs;
+      if (!nodes || !titles) {
+        return;
+      }
+      nodes = nodes.filter((node) => node.nodeType === Node.ELEMENT_NODE);
+      if (!nodes.length) {
+        return;
+      }
+      for (let i = 0, len = nodes.length; i < len; i++) {
+        const title = nodes[i].dataset.title;
+        if (title) {
+          const index = titles.indexOf(title);
+          if (index !== -1) {
+            this.splice('customTabs', index, 1);
+          }
+        }
+      }
+    }
+
+    _processValues(values) {
+      values = this.$.request._processValues(values);
+      values = this.$.data._processValues(values);
+      values = this.$.privacy._processValues(values);
+      return values;
+    }
+
+    _setSettings(values) {
+      this.$.request._setSettings(values);
+      this.$.data._setSettings(values);
+      this.$.privacy._setSettings(values);
+    }
+  }
+  window.customElements.define(ArcSettingsPanel.is, ArcSettingsPanel);
   </script>
 </dom-module>
