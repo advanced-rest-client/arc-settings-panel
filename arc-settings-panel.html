@@ -17,6 +17,7 @@ the License.
 <link rel="import" href="../arc-data-settings-panel/arc-data-settings-panel.html">
 <link rel="import" href="../arc-privacy-settings-panel/arc-privacy-settings-panel.html">
 <link rel="import" href="../arc-settings-panel-mixin/arc-settings-panel-mixin.html">
+<link rel="import" href="../arc-view-settings-panel/arc-view-settings-panel.html">
 <link rel="import" href="../paper-listbox/paper-listbox.html">
 <link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../iron-pages/iron-pages.html">
@@ -69,6 +70,7 @@ the License.
           <paper-tab>Request</paper-tab>
           <paper-tab>Data</paper-tab>
           <paper-tab>Privacy</paper-tab>
+          <paper-tab>View</paper-tab>
           <template is="dom-repeat" items="[[customTabs]]">
             <paper-tab>[[item]]</paper-tab>
           </template>
@@ -79,6 +81,7 @@ the License.
           <paper-item>Request</paper-item>
           <paper-item>Data</paper-item>
           <paper-item>Privacy</paper-item>
+          <paper-item>View</paper-item>
           <template is="dom-repeat" items="[[customTabs]]">
             <paper-item>[[item]]</paper-item>
           </template>
@@ -89,6 +92,7 @@ the License.
         <arc-request-settings-panel id="request" manual ssl-disabled="[[sslDisabled]]" system-variables-disabled="[[systemVariablesDisabled]]"></arc-request-settings-panel>
         <arc-data-settings-panel id="data" manual></arc-data-settings-panel>
         <arc-privacy-settings-panel id="privacy" manual privacy-policy-url="[[privacyPolicyUrl]]"></arc-privacy-settings-panel>
+        <arc-view-settings-panel id="view" manual></arc-view-settings-panel>
         <slot id="slot"></slot>
       </iron-pages>
     </div>
@@ -203,6 +207,7 @@ the License.
       values = this.$.request._processValues(values);
       values = this.$.data._processValues(values);
       values = this.$.privacy._processValues(values);
+      values = this.$.view._processValues(values);
       return values;
     }
 
@@ -210,6 +215,7 @@ the License.
       this.$.request._setSettings(values);
       this.$.data._setSettings(values);
       this.$.privacy._setSettings(values);
+      this.$.view._setSettings(values);
     }
   }
   window.customElements.define(ArcSettingsPanel.is, ArcSettingsPanel);

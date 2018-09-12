@@ -23,6 +23,7 @@
     "arc-request-settings-panel": "advanced-rest-client/arc-request-settings-panel#2.0.0-preview",
     "arc-data-settings-panel": "advanced-rest-client/arc-data-settings-panel#2.0.0-preview",
     "arc-settings-panel-mixin": "advanced-rest-client/arc-settings-panel-mixin#2.0.0-preview",
+    "arc-view-settings-panel": "advanced-rest-client/arc-view-settings-panel#2.0.0-preview",
     "paper-listbox": "PolymerElements/paper-listbox#^2.0.0",
     "paper-item": "PolymerElements/paper-item#^2.0.0",
     "iron-pages": "PolymerElements/iron-pages#^2.0.0",
