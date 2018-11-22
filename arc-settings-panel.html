@@ -89,7 +89,7 @@ the License.
       </template>
 
       <iron-pages class="main-panels" selected="[[selected]]">
-        <arc-request-settings-panel id="request" manual ssl-disabled="[[sslDisabled]]" system-variables-disabled="[[systemVariablesDisabled]]"></arc-request-settings-panel>
+        <arc-request-settings-panel id="request" manual system-variables-disabled="[[systemVariablesDisabled]]"></arc-request-settings-panel>
         <arc-data-settings-panel id="data" manual></arc-data-settings-panel>
         <arc-privacy-settings-panel id="privacy" manual privacy-policy-url="[[privacyPolicyUrl]]"></arc-privacy-settings-panel>
         <arc-view-settings-panel id="view" manual></arc-view-settings-panel>
@@ -134,11 +134,6 @@ the License.
          * List of custom tabs added to the light DOM.
          */
         customTabs: {type: Array},
-        /**
-         * When set `validateCertificates` option in request settings is disabled.
-         * Chrome apps does not have this option.
-         */
-        sslDisabled: Boolean,
         /**
          * When set `systemVariables` options in request settings is disabled.
          * Chrome apps does not have this option.
