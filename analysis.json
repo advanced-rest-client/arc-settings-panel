@@ -108,11 +108,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 119,
+              "line": 125,
               "column": 8
             },
             "end": {
-              "line": 122,
+              "line": 128,
               "column": 9
             }
           },
@@ -130,11 +130,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 127,
+              "line": 133,
               "column": 8
             },
             "end": {
-              "line": 127,
+              "line": 133,
               "column": 71
             }
           },
@@ -152,11 +152,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 131,
+              "line": 137,
               "column": 8
             },
             "end": {
-              "line": 131,
+              "line": 137,
               "column": 33
             }
           },
@@ -167,38 +167,17 @@
           }
         },
         {
-          "name": "sslDisabled",
-          "type": "boolean | null | undefined",
-          "description": "When set `validateCertificates` option in request settings is disabled.\nChrome apps does not have this option.",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 136,
-              "column": 8
-            },
-            "end": {
-              "line": 136,
-              "column": 28
-            }
-          },
-          "metadata": {
-            "polymer": {
-              "attributeType": "Boolean"
-            }
-          }
-        },
-        {
           "name": "systemVariablesDisabled",
           "type": "boolean | null | undefined",
           "description": "When set `systemVariables` options in request settings is disabled.\nChrome apps does not have this option.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 141,
+              "line": 142,
               "column": 8
             },
             "end": {
-              "line": 141,
+              "line": 142,
               "column": 40
             }
           },
@@ -215,11 +194,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 145,
+              "line": 146,
               "column": 8
             },
             "end": {
-              "line": 145,
+              "line": 146,
               "column": 32
             }
           },
@@ -237,11 +216,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 149,
+              "line": 150,
               "column": 4
             },
             "end": {
-              "line": 155,
+              "line": 156,
               "column": 5
             }
           },
@@ -257,11 +236,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 157,
+              "line": 158,
               "column": 4
             },
             "end": {
-              "line": 160,
+              "line": 161,
               "column": 5
             }
           },
@@ -322,11 +301,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 201,
+              "line": 202,
               "column": 4
             },
             "end": {
-              "line": 206,
+              "line": 208,
               "column": 5
             }
           },
@@ -343,11 +322,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 208,
+              "line": 210,
               "column": 4
             },
             "end": {
-              "line": 212,
+              "line": 215,
               "column": 5
             }
           },
@@ -646,11 +625,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 162,
+              "line": 163,
               "column": 4
             },
             "end": {
-              "line": 179,
+              "line": 180,
               "column": 5
             }
           },
@@ -670,11 +649,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 181,
+              "line": 182,
               "column": 4
             },
             "end": {
-              "line": 199,
+              "line": 200,
               "column": 5
             }
           },
@@ -699,11 +678,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 111,
+          "line": 117,
           "column": 2
         },
         "end": {
-          "line": 213,
+          "line": 216,
           "column": 3
         }
       },
@@ -770,11 +749,11 @@
           "description": "Currently selected settings panel.",
           "sourceRange": {
             "start": {
-              "line": 119,
+              "line": 125,
               "column": 8
             },
             "end": {
-              "line": 122,
+              "line": 128,
               "column": 9
             }
           },
@@ -786,11 +765,11 @@
           "description": "When set it renders narrow view.\nIt replaces side navigation with paper tabs",
           "sourceRange": {
             "start": {
-              "line": 127,
+              "line": 133,
               "column": 8
             },
             "end": {
-              "line": 127,
+              "line": 133,
               "column": 71
             }
           },
@@ -802,11 +781,11 @@
           "description": "List of custom tabs added to the light DOM.",
           "sourceRange": {
             "start": {
-              "line": 131,
+              "line": 137,
               "column": 8
             },
             "end": {
-              "line": 131,
+              "line": 137,
               "column": 33
             }
           },
@@ -814,31 +793,15 @@
           "type": "Array | null | undefined"
         },
         {
-          "name": "ssl-disabled",
-          "description": "When set `validateCertificates` option in request settings is disabled.\nChrome apps does not have this option.",
-          "sourceRange": {
-            "start": {
-              "line": 136,
-              "column": 8
-            },
-            "end": {
-              "line": 136,
-              "column": 28
-            }
-          },
-          "metadata": {},
-          "type": "boolean | null | undefined"
-        },
-        {
           "name": "system-variables-disabled",
           "description": "When set `systemVariables` options in request settings is disabled.\nChrome apps does not have this option.",
           "sourceRange": {
             "start": {
-              "line": 141,
+              "line": 142,
               "column": 8
             },
             "end": {
-              "line": 141,
+              "line": 142,
               "column": 40
             }
           },
@@ -850,11 +813,11 @@
           "description": "A link to application privacy policy",
           "sourceRange": {
             "start": {
-              "line": 145,
+              "line": 146,
               "column": 8
             },
             "end": {
-              "line": 145,
+              "line": 146,
               "column": 32
             }
           },
@@ -873,11 +836,11 @@
           "name": "",
           "range": {
             "start": {
-              "line": 91,
+              "line": 97,
               "column": 8
             },
             "end": {
-              "line": 91,
+              "line": 97,
               "column": 31
             }
           }
