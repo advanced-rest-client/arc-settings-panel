@@ -90,3 +90,21 @@
 
 
 
+# [2.0.0](https://github.com/advanced-rest-client/arc-settings-panel/compare/0.2.5...2.0.0) (2019-01-29)
+
+
+### Docs
+
+* Updating polymer docs ([3c707bda425d12343962317088b0cda752ebe9f2](https://github.com/advanced-rest-client/arc-settings-panel/commit/3c707bda425d12343962317088b0cda752ebe9f2))
+
+### New
+
+* Adding test coverage ([076f319e7ced45a2d2acdcfacae74a163b6e6d19](https://github.com/advanced-rest-client/arc-settings-panel/commit/076f319e7ced45a2d2acdcfacae74a163b6e6d19))
+* Adding view settings panel ([17a64906c60872006d0f17e4ae9d283a49d4bd3d](https://github.com/advanced-rest-client/arc-settings-panel/commit/17a64906c60872006d0f17e4ae9d283a49d4bd3d))
+
+### Update
+
+* Removing ssl validation option from demo page ([9b0efa958cc314e91bc11084ae508d257463cbdc](https://github.com/advanced-rest-client/arc-settings-panel/commit/9b0efa958cc314e91bc11084ae508d257463cbdc))
+
+
+
