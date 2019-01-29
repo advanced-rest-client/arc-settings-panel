@@ -1,10 +1,10 @@
 {
-  "name": "arc-settings-panel",
+  "name": "@advanced-rest-client/arc-settings-panel",
   "version": "2.0.0-preview",
   "license": "Apache-2.0",
   "description": "Settings panel for ARC",
   "devDependencies": {
-    "@polymer/gen-typescript-declarations": "^1.5.1"
+    "@polymer/gen-typescript-declarations": "^1.6.1"
   },
   "private": false,
   "main": "arc-settings-panel.html",
