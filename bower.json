@@ -19,11 +19,11 @@
   },
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
-    "arc-privacy-settings-panel": "advanced-rest-client/arc-privacy-settings-panel#2.0.0-preview",
-    "arc-request-settings-panel": "advanced-rest-client/arc-request-settings-panel#2.0.0-preview",
-    "arc-data-settings-panel": "advanced-rest-client/arc-data-settings-panel#2.0.0-preview",
-    "arc-settings-panel-mixin": "advanced-rest-client/arc-settings-panel-mixin#2.0.0-preview",
-    "arc-view-settings-panel": "advanced-rest-client/arc-view-settings-panel#2.0.0-preview",
+    "arc-privacy-settings-panel": "advanced-rest-client/arc-privacy-settings-panel#^2.0.0",
+    "arc-request-settings-panel": "advanced-rest-client/arc-request-settings-panel#^2.0.0",
+    "arc-data-settings-panel": "advanced-rest-client/arc-data-settings-panel#^2.0.0",
+    "arc-settings-panel-mixin": "advanced-rest-client/arc-settings-panel-mixin#^2.0.0",
+    "arc-view-settings-panel": "advanced-rest-client/arc-view-settings-panel#^2.0.0",
     "paper-listbox": "PolymerElements/paper-listbox#^2.0.0",
     "paper-item": "PolymerElements/paper-item#^2.0.0",
     "iron-pages": "PolymerElements/iron-pages#^2.0.0",
@@ -40,7 +40,7 @@
     "arc-electron-default-theme": "advanced-rest-client/arc-electron-default-theme#2.0.0-preview",
     "web-animations-js": "web-animations/web-animations-js#^2.3",
     "arc-models": "advanced-rest-client/arc-models#2.0.0-preview",
-    "arc-local-store-preferences": "advanced-rest-client/arc-local-store-preferences#2.0.0-preview"
+    "arc-local-store-preferences": "advanced-rest-client/arc-local-store-preferences#^2.0.0"
   },
   "ignore": [
     "**/.*",
