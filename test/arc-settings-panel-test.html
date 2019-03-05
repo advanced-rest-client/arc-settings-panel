@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
   <title>arc-settings-panel test</title>
-  <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
-  <script src="../../web-component-tester/browser.js"></script>
-  <link rel="import" href="../../arc-local-store-preferences/arc-local-store-preferences.html">
-  <link rel="import" href="../arc-settings-panel.html">
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="../../../wct-browser-legacy/browser.js"></script>
+  <script type="module" src="../../../arc-local-store-preferences/arc-local-store-preferences.js"></script>
+  <script type="module" src="../arc-settings-panel.js"></script>
 </head>
 <body>
   <arc-local-store-preferences></arc-local-store-preferences>
@@ -53,7 +53,10 @@
       </arc-settings-panel>
     </template>
   </test-fixture>
-  <script>
+  <script type="module">
+  import '../../../arc-local-store-preferences/arc-local-store-preferences.js';
+  import '../arc-settings-panel.js';
+  import { afterNextRender } from '../../../@polymer/polymer/lib/utils/render-status.js';
   suite('arc-settings-panel', () => {
     let element;
     setup(() => {
@@ -131,7 +134,7 @@
       const node = document.createElement('span');
       node.dataset.title = 'test-title';
       element.appendChild(node);
-      Polymer.RenderStatus.afterNextRender(element, () => {
+      afterNextRender(element, () => {
         assert.typeOf(element.customTabs, 'array', 'Creates titles array');
         assert.equal(element.customTabs[0], 'test-title');
         done();
@@ -145,7 +148,7 @@
       node2.dataset.title = 'test-title2';
       element.appendChild(node);
       element.appendChild(node2);
-      Polymer.RenderStatus.afterNextRender(element, () => {
+      afterNextRender(element, () => {
         assert.lengthOf(element.customTabs, 2, 'Array has 2 elements');
         assert.equal(element.customTabs[1], 'test-title2');
         done();
@@ -155,7 +158,7 @@
     test('Ignores non-elements', (done) => {
       const node = document.createTextNode('test');
       element.appendChild(node);
-      Polymer.RenderStatus.afterNextRender(element, () => {
+      afterNextRender(element, () => {
         assert.isUndefined(element.customTabs);
         done();
       });
@@ -164,7 +167,7 @@
     test('Ignores elements without data-title', (done) => {
       const node = document.createElement('span');
       element.appendChild(node);
-      Polymer.RenderStatus.afterNextRender(element, () => {
+      afterNextRender(element, () => {
         assert.isUndefined(element.customTabs);
         done();
       });
@@ -202,7 +205,7 @@
         }
       }
       element.removeChild(node);
-      Polymer.RenderStatus.afterNextRender(element, () => {
+      afterNextRender(element, () => {
         assert.lengthOf(element.customTabs, 1);
         done();
       });
@@ -211,7 +214,7 @@
     test('Ignores elements without data-title', (done) => {
       const node = element.querySelector('.no-title');
       element.removeChild(node);
-      Polymer.RenderStatus.afterNextRender(element, () => {
+      afterNextRender(element, () => {
         assert.lengthOf(element.customTabs, 1);
         done();
       });
@@ -220,7 +223,7 @@
     test('Removes element\'s title from the array', (done) => {
       const node = element.querySelector('.with-title');
       element.removeChild(node);
-      Polymer.RenderStatus.afterNextRender(element, () => {
+      afterNextRender(element, () => {
         assert.lengthOf(element.customTabs, 0);
         done();
       });
