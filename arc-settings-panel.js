@@ -11,19 +11,18 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import { PolymerElement } from '../../@polymer/polymer/polymer-element.js';
-
-import { FlattenedNodesObserver } from '../../@polymer/polymer/lib/utils/flattened-nodes-observer.js';
-import '../../arc-request-settings-panel/arc-request-settings-panel.js';
-import '../../arc-data-settings-panel/arc-data-settings-panel.js';
-import '../../arc-privacy-settings-panel/arc-privacy-settings-panel.js';
-import '../../arc-settings-panel-mixin/arc-settings-panel-mixin.js';
-import '../../arc-view-settings-panel/arc-view-settings-panel.js';
-import '../../@polymer/paper-listbox/paper-listbox.js';
-import '../../@polymer/paper-item/paper-item.js';
-import '../../@polymer/iron-pages/iron-pages.js';
-import '../../@polymer/paper-tabs/paper-tabs.js';
-import { html } from '../../@polymer/polymer/lib/utils/html-tag.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer.js';
+import '@advanced-rest-client/arc-request-settings-panel/arc-request-settings-panel.js';
+import '@advanced-rest-client/arc-data-settings-panel/arc-data-settings-panel.js';
+import '@advanced-rest-client/arc-privacy-settings-panel/arc-privacy-settings-panel.js';
+import {ArcSettingsPanelMixin} from '@advanced-rest-client/arc-settings-panel-mixin/arc-settings-panel-mixin.js';
+import '@advanced-rest-client/arc-view-settings-panel/arc-view-settings-panel.js';
+import '@polymer/paper-listbox/paper-listbox.js';
+import '@polymer/paper-item/paper-item.js';
+import '@polymer/iron-pages/iron-pages.js';
+import '@polymer/paper-tabs/paper-tabs.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 /**
  * Settings panel for Advanced REST Client - electron app.
  *
@@ -37,9 +36,9 @@ import { html } from '../../@polymer/polymer/lib/utils/html-tag.js';
  * @polymer
  * @demo demo/index.html
  * @memberof UiElements
- * @appliesMixin ArcComponents.ArcSettingsPanelMixin
+ * @appliesMixin ArcSettingsPanelMixin
  */
-class ArcSettingsPanel extends ArcComponents.ArcSettingsPanelMixin(PolymerElement) {
+export class ArcSettingsPanel extends ArcSettingsPanelMixin(PolymerElement) {
   static get template() {
     return html`
     <style>
@@ -108,18 +107,24 @@ class ArcSettingsPanel extends ArcComponents.ArcSettingsPanelMixin(PolymerElemen
       </template>
 
       <iron-pages class="main-panels" selected="[[selected]]">
-        <arc-request-settings-panel id="request" manual="" system-variables-disabled="[[systemVariablesDisabled]]"></arc-request-settings-panel>
-        <arc-data-settings-panel id="data" manual=""></arc-data-settings-panel>
-        <arc-privacy-settings-panel id="privacy" manual="" privacy-policy-url="[[privacyPolicyUrl]]"></arc-privacy-settings-panel>
+        <arc-request-settings-panel
+          id="request"
+          manual=""
+          system-variables-disabled="[[systemVariablesDisabled]]"></arc-request-settings-panel>
+        <arc-data-settings-panel
+          id="data"
+          manual=""
+          rest-apis="[[restApis]]"></arc-data-settings-panel>
+        <arc-privacy-settings-panel
+          id="privacy"
+          manual=""
+          privacy-policy-url="[[privacyPolicyUrl]]"></arc-privacy-settings-panel>
         <arc-view-settings-panel id="view" manual=""></arc-view-settings-panel>
         <slot id="slot"></slot>
       </iron-pages>
     </div>
 `;
   }
-
-  static get is() {return 'arc-settings-panel';}
-
   static get properties() {
     return {
       /**
@@ -146,7 +151,11 @@ class ArcSettingsPanel extends ArcComponents.ArcSettingsPanelMixin(PolymerElemen
       /**
        * A link to application privacy policy
        */
-      privacyPolicyUrl: String
+      privacyPolicyUrl: String,
+      /**
+       * When set REST APIs are supported in the application.
+       */
+      restApis: Boolean
     };
   }
 
@@ -217,4 +226,4 @@ class ArcSettingsPanel extends ArcComponents.ArcSettingsPanelMixin(PolymerElemen
     this.$.view._setSettings(values);
   }
 }
-window.customElements.define(ArcSettingsPanel.is, ArcSettingsPanel);
+window.customElements.define('arc-settings-panel', ArcSettingsPanel);

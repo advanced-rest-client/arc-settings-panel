@@ -5,24 +5,22 @@
  *   https://github.com/Polymer/tools/tree/master/packages/gen-typescript-declarations
  *
  * To modify these typings, edit the source file(s):
- *   arc-settings-panel.html
+ *   arc-settings-panel.js
  */
 
 
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 // tslint:disable:no-any describes the API as best we are able today
 
-/// <reference path="../polymer/types/polymer-element.d.ts" />
-/// <reference path="../polymer/types/lib/utils/flattened-nodes-observer.d.ts" />
-/// <reference path="../arc-request-settings-panel/arc-request-settings-panel.d.ts" />
-/// <reference path="../arc-data-settings-panel/arc-data-settings-panel.d.ts" />
-/// <reference path="../arc-privacy-settings-panel/arc-privacy-settings-panel.d.ts" />
-/// <reference path="../arc-settings-panel-mixin/arc-settings-panel-mixin.d.ts" />
-/// <reference path="../arc-view-settings-panel/arc-view-settings-panel.d.ts" />
-/// <reference path="../paper-listbox/paper-listbox.d.ts" />
-/// <reference path="../paper-item/paper-item.d.ts" />
-/// <reference path="../iron-pages/iron-pages.d.ts" />
-/// <reference path="../paper-tabs/paper-tabs.d.ts" />
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+
+import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer.js';
+
+import {ArcSettingsPanelMixin} from '@advanced-rest-client/arc-settings-panel-mixin/arc-settings-panel-mixin.js';
+
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
+export {ArcSettingsPanel};
 
 declare namespace UiElements {
 
@@ -36,7 +34,7 @@ declare namespace UiElements {
    * - all ARC models (required by data panel to clear data)
    */
   class ArcSettingsPanel extends
-    ArcComponents.ArcSettingsPanelMixin(
+    ArcSettingsPanelMixin(
     Object) {
 
     /**
@@ -65,6 +63,11 @@ declare namespace UiElements {
      * A link to application privacy policy
      */
     privacyPolicyUrl: string|null|undefined;
+
+    /**
+     * When set REST APIs are supported in the application.
+     */
+    restApis: boolean|null|undefined;
     connectedCallback(): void;
     disconnectedCallback(): void;
     _processValues(values: any): any;
@@ -74,6 +77,9 @@ declare namespace UiElements {
   }
 }
 
-interface HTMLElementTagNameMap {
-  "arc-settings-panel": UiElements.ArcSettingsPanel;
+declare global {
+
+  interface HTMLElementTagNameMap {
+    "arc-settings-panel": UiElements.ArcSettingsPanel;
+  }
 }

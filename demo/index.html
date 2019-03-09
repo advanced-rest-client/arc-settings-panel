@@ -1,39 +1,28 @@
-<!doctype html>
-<html>
-<head>
+<!DOCTYPE html><html><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
   <title>arc-settings-panel demo</title>
+
   <script src="../../../@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="../../../web-animations-js/web-animations-next.min.js"></script>
+
   <script type="module" src="../../../@webcomponents/shadycss/entrypoints/apply-shim.js"></script>
   <script type="module" src="../../../@polymer/polymer/lib/elements/custom-style.js"></script>
   <script type="module" src="../../../@polymer/polymer/lib/elements/dom-bind.js"></script>
-  <script type="module" src="../../../app-pouchdb/pouchdb.js"></script>
   <script type="module" src="../../../@polymer/iron-demo-helpers/demo-pages-shared-styles.js"></script>
   <script type="module" src="../../../@polymer/iron-demo-helpers/demo-snippet.js"></script>
-  <script type="module" src="../../../arc-data-export/arc-data-export.js"></script>
-  <script type="module" src="../../../arc-models/arc-models.js"></script>
-  <script type="module" src="../../../arc-models/auth-data-model.js"></script>
-  <script type="module" src="../../../arc-models/host-rules-model.js"></script>
+  <script type="module" src="../../../@advanced-rest-client/arc-data-export/arc-data-export.js"></script>
+  <script type="module" src="../../../@advanced-rest-client/arc-models/arc-models.js"></script>
+  <script type="module" src="../../../@advanced-rest-client/arc-models/auth-data-model.js"></script>
+  <script type="module" src="../../../@advanced-rest-client/arc-models/host-rules-model.js"></script>
   <script type="module" src="../../../@polymer/paper-toast/paper-toast.js"></script>
-  <script type="module" src="../../../arc-electron-default-theme/arc-electron-default-theme.js"></script>
-  <script type="module" src="../../../arc-local-store-preferences/arc-local-store-preferences.js"></script>
-  <script type="module" src="../../../@polymer/neon-animation/web-animations.js"></script>
+  <script type="module" src="../../../@advanced-rest-client/arc-electron-default-theme/arc-electron-default-theme.js"></script>
+  <script type="module" src="../../../@advanced-rest-client/arc-local-store-preferences/arc-local-store-preferences.js"></script>
   <script type="module" src="../../../@polymer/paper-toggle-button/paper-toggle-button.js"></script>
   <script type="module" src="../arc-settings-panel.js"></script>
-  <!-- FIXME(polymer-modulizer):
-        These imperative modules that innerHTML your HTML are
-        a hacky way to be sure that any mixins in included style
-        modules are ready before any elements that reference them are
-        instantiated, otherwise the CSS @apply mixin polyfill won't be
-        able to expand the underlying CSS custom properties.
-        See: https://github.com/Polymer/polymer-modulizer/issues/154
-        -->
-    <script type="module">
-const $_documentContainer = document.createElement('template');
 
-$_documentContainer.innerHTML = `<style>
+  <style>
   body,
   html {
     background-color: #e5e5e5 !important;
@@ -45,25 +34,13 @@ $_documentContainer.innerHTML = `<style>
     padding: 24px;
     max-width: 1000px;
   }
-  </style>`;
-
-document.head.appendChild($_documentContainer.content);
-</script>
-  <script type="module">
-const $_documentContainer = document.createElement('template');
-
-$_documentContainer.innerHTML = `<custom-style>
+  </style>
+  <custom-style>
     <style is="custom-style" include="demo-pages-shared-styles"></style>
-  </custom-style>`;
-
-document.body.appendChild($_documentContainer.content);
-</script>
+  </custom-style>
 </head>
-<body unresolved>
-  <script type="module">
-const $_documentContainer = document.createElement('template');
-
-$_documentContainer.innerHTML = `<dom-bind id="demo">
+<body unresolved="">
+  <dom-bind id="demo">
     <template>
       <arc-data-export></arc-data-export>
       <project-model></project-model>
@@ -80,10 +57,11 @@ $_documentContainer.innerHTML = `<dom-bind id="demo">
         <h2>Panel options</h2>
         <paper-toggle-button checked="{{narrow}}">Narrow view</paper-toggle-button>
         <paper-toggle-button checked="{{systemVariablesDisabled}}">System variables disabled</paper-toggle-button>
+        <paper-toggle-button checked="{{restApis}}">REST APIs supported</paper-toggle-button>
       </section>
 
       <section class="centered demo" rel="main">
-        <arc-settings-panel narrow="[[narrow]]" system-variables-disabled="[[systemVariablesDisabled]]">
+        <arc-settings-panel narrow="[[narrow]]" system-variables-disabled="[[systemVariablesDisabled]]" rest-apis="[[restApis]]">
           <div data-title="Custom">
             <p>This is custom panel</p>
           </div>
@@ -96,45 +74,26 @@ $_documentContainer.innerHTML = `<dom-bind id="demo">
       <paper-toast text="Drive export requested" id="driveToast"></paper-toast>
       <paper-toast text="File export requested" id="fileToast"></paper-toast>
     </template>
-  </dom-bind>`;
-
-document.body.appendChild($_documentContainer.content);
-</script>
+  </dom-bind>
   <script type="module">
-import '../../../@webcomponents/shadycss/entrypoints/apply-shim.js';
-import '../../../@polymer/polymer/lib/elements/custom-style.js';
-import '../../../@polymer/polymer/lib/elements/dom-bind.js';
-import '../../../app-pouchdb/pouchdb.js';
-import '../../../@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
-import '../../../@polymer/iron-demo-helpers/demo-snippet.js';
-import '../../../arc-data-export/arc-data-export.js';
-import '../../../arc-models/arc-models.js';
-import '../../../arc-models/auth-data-model.js';
-import '../../../arc-models/host-rules-model.js';
-import '../../../@polymer/paper-toast/paper-toast.js';
-import '../../../arc-electron-default-theme/arc-electron-default-theme.js';
-import '../../../arc-local-store-preferences/arc-local-store-preferences.js';
-import '../../../@polymer/neon-animation/web-animations.js';
-import '../../../@polymer/paper-toggle-button/paper-toggle-button.js';
-import '../arc-settings-panel.js';
-(function(scope) {
-  scope._fileExportHandler = function(e) {
-    e.preventDefault();
-    e.detail.result = new Promise((resolve) => {
-      setTimeout(() => resolve(), 1000);
-    });
-    scope.$.fileToast.opened = true;
-  };
-  scope._driveExportHandler = function(e) {
-    e.preventDefault();
-    e.detail.result = new Promise((resolve) => {
-      setTimeout(() => resolve(), 1000);
-    });
-    scope.$.driveToast.opened = true;
-  };
-  window.addEventListener('file-data-save', scope._fileExportHandler);
-  window.addEventListener('google-drive-data-save', scope._driveExportHandler);
-})(document.getElementById('demo'));
-</script>
-</body>
-</html>
+    import '../../../pouchdb/dist/pouchdb.js';
+    (function(scope) {
+      scope._fileExportHandler = function(e) {
+        e.preventDefault();
+        e.detail.result = new Promise((resolve) => {
+          setTimeout(() => resolve(), 1000);
+        });
+        scope.$.fileToast.opened = true;
+      };
+      scope._driveExportHandler = function(e) {
+        e.preventDefault();
+        e.detail.result = new Promise((resolve) => {
+          setTimeout(() => resolve(), 1000);
+        });
+        scope.$.driveToast.opened = true;
+      };
+      window.addEventListener('file-data-save', scope._fileExportHandler);
+      window.addEventListener('google-drive-data-save', scope._driveExportHandler);
+    })(document.getElementById('demo'));
+  </script>
+</body></html>
