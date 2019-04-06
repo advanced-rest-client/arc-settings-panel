@@ -11,18 +11,18 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer.js';
-import '@advanced-rest-client/arc-request-settings-panel/arc-request-settings-panel.js';
-import '@advanced-rest-client/arc-data-settings-panel/arc-data-settings-panel.js';
-import '@advanced-rest-client/arc-privacy-settings-panel/arc-privacy-settings-panel.js';
-import {ArcSettingsPanelMixin} from '@advanced-rest-client/arc-settings-panel-mixin/arc-settings-panel-mixin.js';
-import '@advanced-rest-client/arc-view-settings-panel/arc-view-settings-panel.js';
-import '@polymer/paper-listbox/paper-listbox.js';
-import '@polymer/paper-item/paper-item.js';
-import '@polymer/iron-pages/iron-pages.js';
-import '@polymer/paper-tabs/paper-tabs.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
+import {FlattenedNodesObserver} from '../../@polymer/polymer/lib/utils/flattened-nodes-observer.js';
+import '../../@advanced-rest-client/arc-request-settings-panel/arc-request-settings-panel.js';
+import '../../@advanced-rest-client/arc-data-settings-panel/arc-data-settings-panel.js';
+import '../../@advanced-rest-client/arc-privacy-settings-panel/arc-privacy-settings-panel.js';
+import {ArcSettingsPanelMixin} from '../../@advanced-rest-client/arc-settings-panel-mixin/arc-settings-panel-mixin.js';
+import '../../@advanced-rest-client/arc-view-settings-panel/arc-view-settings-panel.js';
+import '../../@polymer/paper-listbox/paper-listbox.js';
+import '../../@polymer/paper-item/paper-item.js';
+import '../../@polymer/iron-pages/iron-pages.js';
+import '../../@polymer/paper-tabs/paper-tabs.js';
+import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
 /**
  * Settings panel for Advanced REST Client - electron app.
  *
