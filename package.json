@@ -12,20 +12,20 @@
   "version": "3.0.0-preview.2",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@advanced-rest-client/arc-data-export": "^3.0.0-preview.1",
+    "@advanced-rest-client/arc-data-export": "^3.0.0-preview.2",
     "@advanced-rest-client/arc-electron-default-theme": "^3.0.0-preview.2",
-    "@advanced-rest-client/arc-local-store-preferences": "^3.0.0-preview.1",
-    "@advanced-rest-client/arc-models": "^3.0.0-preview.2",
+    "@advanced-rest-client/arc-local-store-preferences": "^3.0.0-preview.2",
+    "@advanced-rest-client/arc-models": "^3.0.0-preview.3",
     "@polymer/gen-typescript-declarations": "^1.6.1",
     "@polymer/iron-component-page": "^4.0.0",
     "@polymer/iron-demo-helpers": "^3.0.0",
     "@polymer/iron-test-helpers": "^3.0.0",
     "@polymer/test-fixture": "^4.0.2",
-    "@webcomponents/webcomponentsjs": "^2.0.0",
+    "@webcomponents/webcomponentsjs": "^2.2.9",
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "pouchdb": "^7.0.0",
-    "sinon": "^7.2.3",
+    "sinon": "^7.3.1",
     "wct-mocha": "^1.0.0",
     "web-animations-js": "^2.3.1"
   },
@@ -49,15 +49,15 @@
     "The Advanced REST client authors <arc@mulesoft.com>"
   ],
   "dependencies": {
-    "@advanced-rest-client/arc-data-settings-panel": "^3.0.0-preview.1",
-    "@advanced-rest-client/arc-privacy-settings-panel": "^3.0.0-preview.1",
-    "@advanced-rest-client/arc-request-settings-panel": "^3.0.0-preview.1",
-    "@advanced-rest-client/arc-settings-panel-mixin": "^3.0.0-preview.2",
-    "@advanced-rest-client/arc-view-settings-panel": "^3.0.0-preview.1",
+    "@advanced-rest-client/arc-data-settings-panel": "^3.0.0-preview.2",
+    "@advanced-rest-client/arc-privacy-settings-panel": "^3.0.0-preview.2",
+    "@advanced-rest-client/arc-request-settings-panel": "^3.0.0-preview.3",
+    "@advanced-rest-client/arc-settings-panel-mixin": "^3.0.0-preview.3",
+    "@advanced-rest-client/arc-view-settings-panel": "^3.0.0-preview.2",
     "@polymer/iron-pages": "^3.0.0",
     "@polymer/paper-item": "^3.0.0",
     "@polymer/paper-listbox": "^3.0.0",
     "@polymer/paper-tabs": "^3.0.0",
-    "@polymer/polymer": "^3.0.0"
+    "@polymer/polymer": "^3.2.0"
   }
 }
