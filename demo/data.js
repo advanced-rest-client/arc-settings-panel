@@ -23,10 +23,11 @@ class DemoPage extends ArcDemoPage {
     super();
     this.initObservableProperties([
       'compatibility',
+      'outlined',
       'restApis'
     ]);
     this._componentName = 'data-settings-panel';
-    this.demoStates = ['Material', 'Anypoint'];
+    this.demoStates = ['Filled', 'Outlined', 'Anypoint'];
     this.restApis = true;
 
     this._demoStateHandler = this._demoStateHandler.bind(this);
@@ -43,14 +44,8 @@ class DemoPage extends ArcDemoPage {
 
   _demoStateHandler(e) {
     const state = e.detail.value;
-    switch (state) {
-      case 0:
-        this.compatibility = false;
-        break;
-      case 1:
-        this.compatibility = true;
-        break;
-    }
+    this.outlined = state === 1;
+    this.compatibility = state === 2;
   }
 
   _fileExportHandler(e) {
@@ -76,6 +71,7 @@ class DemoPage extends ArcDemoPage {
       demoStates,
       darkThemeActive,
       compatibility,
+      outlined,
       restApis
     } = this;
     return html`
@@ -93,6 +89,7 @@ class DemoPage extends ArcDemoPage {
         >
           <data-settings-panel
             ?compatibility="${compatibility}"
+            ?outlined="${outlined}"
             slot="content"
             ?restApis="${restApis}"></data-settings-panel>
 

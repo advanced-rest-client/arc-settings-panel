@@ -1,20 +1,32 @@
+
 import { html } from 'lit-html';
 import { ArcDemoPage } from '@advanced-rest-client/arc-demo-helper/ArcDemoPage.js';
 import '@advanced-rest-client/arc-demo-helper/arc-interactive-demo.js';
 import '@advanced-rest-client/arc-local-store-preferences/arc-local-store-preferences.js';
-import '../privacy-settings-panel.js';
+import '../electron-experiments-settings-panel.js';
 
 class DemoPage extends ArcDemoPage {
   constructor() {
     super();
     this.initObservableProperties([
       'compatibility',
-      'outlined'
+      'outlined',
+      'restApis'
     ]);
-    this._componentName = 'privacy-settings-panel';
+    this._componentName = 'electron-experiments-settings-panel';
     this.demoStates = ['Filled', 'Outlined', 'Anypoint'];
+    this.restApis = true;
 
     this._demoStateHandler = this._demoStateHandler.bind(this);
+    this._toggleMainOption = this._toggleMainOption.bind(this);
+
+    window.addEventListener('file-data-save', this._fileExportHandler);
+    window.addEventListener('google-drive-data-save', this._driveExportHandler);
+  }
+
+  _toggleMainOption(e) {
+    const { name, checked } = e.target;
+    this[name] = checked;
   }
 
   _demoStateHandler(e) {
@@ -28,7 +40,8 @@ class DemoPage extends ArcDemoPage {
       demoStates,
       darkThemeActive,
       compatibility,
-      outlined
+      outlined,
+      restApis
     } = this;
     return html`
       <section class="documentation-section">
@@ -43,10 +56,12 @@ class DemoPage extends ArcDemoPage {
           @state-chanegd="${this._demoStateHandler}"
           ?dark="${darkThemeActive}"
         >
-          <privacy-settings-panel
+          <electron-experiments-settings-panel
             ?compatibility="${compatibility}"
             ?outlined="${outlined}"
-            slot="content"></privacy-settings-panel>
+            slot="content"
+            ?restApis="${restApis}"
+          ></electron-experiments-settings-panel>
         </arc-interactive-demo>
       </section>
     `;
@@ -57,7 +72,7 @@ class DemoPage extends ArcDemoPage {
       <section class="documentation-section">
         <h3>Introduction</h3>
         <p>
-          Advanced REST Client privacy settings panel is a part of application settings.
+          Advanced REST Client data settings panel is a part of application settings.
         </p>
       </section>
     `;
@@ -67,7 +82,7 @@ class DemoPage extends ArcDemoPage {
     return html`
       <section class="documentation-section">
         <h2>Usage</h2>
-        <p>The privacy settings panel comes with 2 predefied styles:</p>
+        <p>The data settings panel comes with 2 predefied styles:</p>
         <ul>
           <li><b>Material</b> - Normal state</li>
           <li>
@@ -82,17 +97,13 @@ class DemoPage extends ArcDemoPage {
     return html`
       <arc-local-store-preferences></arc-local-store-preferences>
 
-      <h2>Privacy settings panel</h2>
+      <h2>Electron experiments settings panel</h2>
       ${this._demoTemplate()}
       ${this._introductionTemplate()}
       ${this._usageTemplate()}
     `;
   }
 }
-
-window.addEventListener('navigate', function() {
-  document.getElementById('navToast').opened = true;
-});
 
 const instance = new DemoPage();
 instance.render();

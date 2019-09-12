@@ -13,10 +13,11 @@ class DemoPage extends ArcDemoPage {
     super();
     this.initObservableProperties([
       'compatibility',
+      'outlined',
       'systemVariablesDisabled'
     ]);
     this._componentName = 'request-settings-panel';
-    this.demoStates = ['Material', 'Anypoint'];
+    this.demoStates = ['Filled', 'Outlined', 'Anypoint'];
 
     this._demoStateHandler = this._demoStateHandler.bind(this);
     this._toggleMainOption = this._toggleMainOption.bind(this);
@@ -29,14 +30,8 @@ class DemoPage extends ArcDemoPage {
 
   _demoStateHandler(e) {
     const state = e.detail.value;
-    switch (state) {
-      case 0:
-        this.compatibility = false;
-        break;
-      case 1:
-        this.compatibility = true;
-        break;
-    }
+    this.outlined = state === 1;
+    this.compatibility = state === 2;
   }
 
   _demoTemplate() {
@@ -44,6 +39,7 @@ class DemoPage extends ArcDemoPage {
       demoStates,
       darkThemeActive,
       compatibility,
+      outlined,
       systemVariablesDisabled
     } = this;
     return html`
@@ -61,9 +57,9 @@ class DemoPage extends ArcDemoPage {
         >
           <request-settings-panel
             ?compatibility="${compatibility}"
+            ?outlined="${outlined}"
             slot="content"
             ?systemVariablesDisabled="${systemVariablesDisabled}"></request-settings-panel>
-
 
           <label slot="options" id="mainOptionsLabel">Options</label>
           <anypoint-checkbox

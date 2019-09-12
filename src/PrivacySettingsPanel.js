@@ -24,11 +24,11 @@ export class PrivacySettingsPanel extends ArcSettingsBase {
       /**
        * If true then Google Analytics tracking is enabled.
        */
-      telemetry: { type: Boolean },
+      telemetry: { type: Boolean, default: true },
       /**
        * A link to the privacy policy
        */
-      privacyPolicyUrl: { type: String }
+      privacyPolicyUrl: { type: String, ignore: true }
     };
   }
 
@@ -44,53 +44,15 @@ export class PrivacySettingsPanel extends ArcSettingsBase {
     this._openLink(this.privacyPolicyUrl);
   }
 
-  _processValues(values) {
-    if (typeof values.telemetry === 'undefined') {
-      values.telemetry = true;
-    } else {
-      values.telemetry = this._boolValue(values.telemetry);
-    }
-    return values;
-  }
-
-  _setSettings(values) {
-    this.__settingsRestored = false;
-    this.telemetry = values.telemetry;
-    this.__settingsRestored = true;
-  }
-
-  _settingsChanged(key, value) {
-    this.__settingsRestored = false;
-    switch (key) {
-      case 'telemetry':
-       this[key] = value;
-       break;
-    }
-    this.__settingsRestored = true;
-  }
-
   render() {
-    const { compatibility, telemetry } = this;
+    const { compatibility } = this;
     return html`<h2 class="panel-title">Account and privacy</h2>
     <section class="card">
-      <anypoint-item
-        class="clickable"
-        @click="${this._toggleOption}"
-        ?compatibility="${compatibility}">
-        <anypoint-item-body twoline ?compatibility="${compatibility}">
-          <div>
-            Send anonymous usage data
-          </div>
-          <div secondary>Help us make ARC better by providing anonymous usage statistics.</div>
-        </anypoint-item-body>
-        <anypoint-switch
-          tabindex="-1"
-          .checked="${telemetry}"
-          name="telemetry"
-          @checked-changed="${this._toogleBooleanValue}"
-          ?compatibility="${compatibility}"></anypoint-switch>
-      </anypoint-item>
-
+      ${this._switchTemplate({
+        label: 'Send anonymous usage data',
+        description: 'Help us make ARC better by providing anonymous usage statistics',
+        name: 'telemetry'
+      })}
       <anypoint-item
         @click="${this.openPrivacyPolicy}"
         class="clickable"

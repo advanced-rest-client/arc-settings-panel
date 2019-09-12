@@ -13,7 +13,7 @@ the License.
 */
 import { html } from 'lit-element';
 import { ArcSettingsBase } from './ArcSettingsBase.js';
-import { arrowDropDown, arrowBack } from '@advanced-rest-client/arc-icons/ArcIcons.js';
+import { arrowBack } from '@advanced-rest-client/arc-icons/ArcIcons.js';
 import '@anypoint-web-components/anypoint-item/anypoint-item.js';
 import '@anypoint-web-components/anypoint-item/anypoint-item-body.js';
 import '@anypoint-web-components/anypoint-input/anypoint-input.js';
@@ -25,29 +25,29 @@ export class RequestSettingsPanel extends ArcSettingsBase {
       /**
        * Variables support enabled setting.
        */
-      appVariablesEnabled: { type: Boolean },
+      appVariablesEnabled: { type: Boolean, default: true },
       /**
        * Sequest default timeout setting.
        */
-      requestDefaultTimeout: { type: Number },
+      requestDefaultTimeout: { type: Number, default: 45 },
       /**
        * Global option to follow redirects
        */
-      followRedirects: { type: Boolean },
+      followRedirects: { type: Boolean, default: true },
       /**
        * Collects information abour system variables when evaluating
        * request.
        */
-      systemVariablesEnabled: { type: Boolean },
+      systemVariablesEnabled: { type: Boolean, default: true },
       /**
        * When set `systemVariablesEnabled` options is disabled.
        * Chrome apps does not have this option.
        */
-      systemVariablesDisabled: { type: Boolean },
+      systemVariablesDisabled: { type: Boolean, ignore: true },
       /**
        * Default OAuth 2 redirect URI.
        */
-      oauth2redirectUri: { type: String },
+      oauth2redirectUri: { type: String, ignore: true },
       /**
        * The default value for the OAuth2 redirect URI if missing.
        */
@@ -55,7 +55,7 @@ export class RequestSettingsPanel extends ArcSettingsBase {
       /**
        * Ignore `content-*` headers when making GET request
        */
-      ignoreContentOnGet: { type: Boolean }
+      ignoreContentOnGet: { type: Boolean, default: false }
     };
   }
 
@@ -122,151 +122,51 @@ export class RequestSettingsPanel extends ArcSettingsBase {
     return values;
   }
 
-  _setSettings(values) {
-    this.__settingsRestored = false;
-    this.appVariablesEnabled = values.appVariablesEnabled;
-    this.followRedirects = values.followRedirects;
-    this.requestDefaultTimeout = values.requestDefaultTimeout;
-    this.systemVariablesEnabled = values.systemVariablesEnabled;
-    this.oauth2redirectUri = values.oauth2redirectUri;
-    this.ignoreContentOnGet = values.ignoreContentOnGet;
-    this.__settingsRestored = true;
-  }
-
-  _settingsChanged(key, value) {
-    this.__settingsRestored = false;
-    switch (key) {
-      case 'appVariablesEnabled':
-      case 'systemVariablesEnabled':
-      case 'requestDefaultTimeout':
-      case 'followRedirects':
-      case 'ignoreContentOnGet':
-        this[key] = value;
-        break;
-    }
-    this.__settingsRestored = true;
-  }
-
   _requestSettingsTemplate() {
     const {
       timeoutLabel,
-      appVariablesEnabled,
-      systemVariablesDisabled,
-      systemVariablesEnabled,
-      followRedirects,
-      ignoreContentOnGet,
-      compatibility
+      systemVariablesDisabled
     } = this;
     return html`<section>
       <h2 class="panel-title">Request behavior</h2>
       <div class="card">
-        <anypoint-item
-          data-page="1"
-          @click="${this._showPage}"
-          class="clickable"
-          ?compatibility="${compatibility}">
-          <anypoint-item-body twoline ?compatibility="${compatibility}">
-            <div>
-              Request timeout
-            </div>
-            <div secondary>${timeoutLabel}</div>
-          </anypoint-item-body>
-          <span class="panel-icon nav-away-icon">${arrowDropDown}</span>
-        </anypoint-item>
-
-        <anypoint-item
-          data-page="2"
-          @click="${this._showPage}"
-          class="clickable"
-          ?compatibility="${compatibility}">
-          <anypoint-item-body twoline ?compatibility="${compatibility}">
-            <div>
-              OAuth2 redirect URI
-            </div>
-            <div secondary>Sets default OAuth2 redirect URI</div>
-          </anypoint-item-body>
-          <span class="panel-icon nav-away-icon">${arrowDropDown}</span>
-        </anypoint-item>
-
-        <anypoint-item
-          class="clickable"
-          @click="${this._toggleOption}"
-          ?compatibility="${compatibility}">
-          <anypoint-item-body twoline ?compatibility="${compatibility}">
-            <div>
-              Local variables
-            </div>
-            <div secondary>Use application variables when processing request</div>
-          </anypoint-item-body>
-          <anypoint-switch
-            tabindex="-1"
-            .checked="${appVariablesEnabled}"
-            name="appVariablesEnabled"
-            @checked-changed="${this._toogleBooleanValue}"
-            ?compatibility="${compatibility}"></anypoint-switch>
-        </anypoint-item>
-
-        <anypoint-item
-          class="clickable"
-          @click="${this._toggleOption}"
-          ?disabled="${systemVariablesDisabled}"
-          ?compatibility="${compatibility}">
-          <anypoint-item-body twoline ?compatibility="${compatibility}">
-            <div>
-              System variables
-            </div>
-            <div secondary="">Include system variables when processing request</div>
-          </anypoint-item-body>
-          <anypoint-switch
-            tabindex="-1"
-            .checked="${systemVariablesEnabled}"
-            ?disabled="${systemVariablesDisabled}"
-            name="systemVariablesEnabled"
-            @checked-changed="${this._toogleBooleanValue}"
-            ?compatibility="${compatibility}"></anypoint-switch>
-        </anypoint-item>
-
-        <anypoint-item
-          class="clickable"
-          @click="${this._toggleOption}"
-          ?compatibility="${compatibility}">
-          <anypoint-item-body twoline ?compatibility="${compatibility}">
-            <div>
-              Follow redirects
-            </div>
-            <div secondary="">Automatically follow redirects when making a request</div>
-          </anypoint-item-body>
-          <anypoint-switch
-            tabindex="-1"
-            name="followRedirects"
-            .checked="${followRedirects}"
-            @checked-changed="${this._toogleBooleanValue}"
-            ?compatibility="${compatibility}"></anypoint-switch>
-        </anypoint-item>
-
-        <anypoint-item
-          class="clickable"
-          @click="${this._toggleOption}"
-          ?compatibility="${compatibility}">
-          <anypoint-item-body twoline ?compatibility="${compatibility}">
-            <div>
-              Ignore content related headers for GET request
-            </div>
-            <div secondary="">Ignore all <b>Content-*</b> headers when making a GET request.</div>
-          </anypoint-item-body>
-          <anypoint-switch
-            tabindex="-1"
-            .checked="${ignoreContentOnGet}"
-            name="ignoreContentOnGet"
-            @checked-changed="${this._toogleBooleanValue}"
-            ?compatibility="${compatibility}"></anypoint-switch>
-        </anypoint-item>
+        ${this._pageItemTemplate({
+          label: 'Request timeout',
+          description: timeoutLabel,
+          page: 1
+        })}
+        ${this._pageItemTemplate({
+          label: 'OAuth2 redirect URI',
+          description: 'Sets default OAuth2 redirect URI',
+          page: 2
+        })}
+        ${this._switchTemplate({
+          label: 'Local variables',
+          description: 'Use application variables when processing request',
+          name: 'appVariablesEnabled'
+        })}
+        ${this._switchTemplate({
+          label: 'System variables',
+          description: 'Include system variables when processing request',
+          name: 'systemVariablesEnabled',
+          disabled: systemVariablesDisabled
+        })}
+        ${this._switchTemplate({
+          label: 'Follow redirects',
+          description: 'Automatically follow redirects when making a request',
+          name: 'followRedirects'
+        })}
+        ${this._switchTemplate({
+          label: 'Ignore content related headers for GET request',
+          description: 'Ignore all Content-* headers when making a GET request.',
+          name: 'ignoreContentOnGet'
+        })}
       </div>
     </section>`;
   }
 
   _timeoutTemplate() {
-    const { requestDefaultTimeout, compatibility } = this;
+    const { requestDefaultTimeout, compatibility, outlined } = this;
     return html`<section>
       <h2 class="panel-title">
         <anypoint-icon-button
@@ -287,7 +187,8 @@ export class RequestSettingsPanel extends ArcSettingsBase {
           pattern="[0-9]*"
           invalidmessage="Enter time as a number"
           class="auto-width"
-          ?compatibility="${compatibility}">
+          ?compatibility="${compatibility}"
+          ?outlined="${outlined}">
           <label slot="label">Request timeout</label>
           <div slot="suffix">seconds</div>
         </anypoint-input>
@@ -303,7 +204,7 @@ export class RequestSettingsPanel extends ArcSettingsBase {
   }
 
   _redirectTemplate() {
-    const { oauth2redirectUri, compatibility } = this;
+    const { oauth2redirectUri, compatibility, outlined } = this;
     return html`<section>
       <h2 class="panel-title">
         <anypoint-icon-button
@@ -325,6 +226,7 @@ export class RequestSettingsPanel extends ArcSettingsBase {
           name="oauth2redirectUri"
           @value-changed="${this._inputValueHandler}"
           ?compatibility="${compatibility}"
+          ?outlined="${outlined}"
         >
           <label slot="label">URI value</label>
         </anypoint-input>

@@ -22,12 +22,15 @@ class DemoPage extends ArcDemoPage {
     super();
     this.initObservableProperties([
       'compatibility',
+      'outlined',
       'restApis',
-      'systemVariablesDisabled'
+      'systemVariablesDisabled',
+      'hasExperiments'
     ]);
     this._componentName = 'arc-settings-panel';
-    this.demoStates = ['Material', 'Anypoint'];
+    this.demoStates = ['Filled', 'Outlined', 'Anypoint'];
     this.restApis = true;
+    this.hasExperiments = true;
 
     this._demoStateHandler = this._demoStateHandler.bind(this);
     this._toggleMainOption = this._toggleMainOption.bind(this);
@@ -43,14 +46,8 @@ class DemoPage extends ArcDemoPage {
 
   _demoStateHandler(e) {
     const state = e.detail.value;
-    switch (state) {
-      case 0:
-        this.compatibility = false;
-        break;
-      case 1:
-        this.compatibility = true;
-        break;
-    }
+    this.outlined = state === 1;
+    this.compatibility = state === 2;
   }
 
   _fileExportHandler(e) {
@@ -76,8 +73,10 @@ class DemoPage extends ArcDemoPage {
       demoStates,
       darkThemeActive,
       compatibility,
+      outlined,
       restApis,
-      systemVariablesDisabled
+      systemVariablesDisabled,
+      hasExperiments
     } = this;
     return html`
       <section class="documentation-section">
@@ -94,9 +93,11 @@ class DemoPage extends ArcDemoPage {
         >
           <arc-settings-panel
             ?compatibility="${compatibility}"
+            ?outlined="${outlined}"
             slot="content"
             ?restApis="${restApis}"
-            ?systemVariablesDisabled="${systemVariablesDisabled}"></arc-settings-panel>
+            ?systemVariablesDisabled="${systemVariablesDisabled}"
+            ?hasExperiments="${hasExperiments}"></arc-settings-panel>
 
           <label slot="options" id="mainOptionsLabel">Options</label>
           <anypoint-checkbox
@@ -115,6 +116,16 @@ class DemoPage extends ArcDemoPage {
           >
             Disable sys. vars.
           </anypoint-checkbox>
+          <anypoint-checkbox
+            aria-describedby="mainOptionsLabel"
+            slot="options"
+            checked
+            name="hasExperiments"
+            @change="${this._toggleMainOption}"
+          >
+            Experiments
+          </anypoint-checkbox>
+
         </arc-interactive-demo>
       </section>
     `;

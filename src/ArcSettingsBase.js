@@ -11,8 +11,9 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import { LitElement } from 'lit-element';
+import { LitElement, html } from 'lit-element';
 import commonStyles from './CommonStyles.js';
+import { arrowDropDown } from '@advanced-rest-client/arc-icons/ArcIcons.js';
 /**
  * Base class for ARC settings panels.
  *
@@ -98,6 +99,11 @@ export class ArcSettingsBase extends LitElement {
        * Enables compatibility with Anypoint platform
        */
       compatibility: { type: Boolean },
+      /**
+       * Enables Material Design Outlined inputs
+       */
+      outlined: { type: Boolean },
+
       __settingsRestored: { type: Boolean }
     };
   }
@@ -161,10 +167,12 @@ export class ArcSettingsBase extends LitElement {
       detail: {}
     });
     this.dispatchEvent(e);
+    /* istanbul ignore if */
     if (!e.defaultPrevented) {
+      /* istanbul ignore next */
       throw new Error('Settings provided not found.');
     }
-    const settings = await e.detail.result
+    const settings = await e.detail.result;
     return await this._processValues(settings);
   }
   /**
@@ -212,6 +220,55 @@ export class ArcSettingsBase extends LitElement {
     this.dispatchEvent(e);
   }
   /**
+   * Default setter for incomming settings.
+   * It takes list of observable properties defined in the static `properties` list
+   * and if any of the values' keys matches then the setting is set.
+   * @param {Object} values List of restored settings.
+   */
+  _setSettings(values) {
+    const props = this.constructor.properties;
+    const keys = Object.keys(props);
+    this.__settingsRestored = false;
+    keys.forEach((key) => {
+      if (key in values) {
+        this[key] = values[key];
+      }
+    });
+    this.__settingsRestored = true;
+  }
+  /**
+   * Default setter for incomming settings.
+   * It takes list of observable properties defined in the static `properties` list
+   * and if any of the values' keys matches then the setting is set.
+   * @param {Object} values List of restored settings.
+   * @return {Object} The same values with processed value type and defaults.
+   */
+  _processValues(values) {
+    const props = this.constructor.properties;
+    const keys = Object.keys(props);
+    keys.forEach((key) => {
+      const def = props[key];
+      if (key in values) {
+        const value = this._readPropertyValue(def, values[key]);
+        values[key] = value;
+      } else if(!def.ignore) {
+        values[key] = def.default;
+      }
+    });
+    return values;
+  }
+
+  _readPropertyValue(definition, current) {
+    if (typeof current === 'undefined') {
+      return definition.default;
+    }
+    switch (definition.type.name) {
+      case 'Boolean': return this._boolValue(current);
+      case 'Number': return this._numValue(current);
+    }
+    return current;
+  }
+  /**
    * Returns a boolean value for the `value`.
    * @param {any} value
    * @return {Boolean}
@@ -224,8 +281,7 @@ export class ArcSettingsBase extends LitElement {
     if (type === 'string') {
       if (value === 'true') {
         return true;
-      }
-      if (value === 'false') {
+      } else if (value === 'false') {
         return false;
       }
     }
@@ -315,7 +371,7 @@ export class ArcSettingsBase extends LitElement {
    * @param {CustomEvent} e
    */
   __settingsUpdated(e) {
-    if (!this._settingsChanged || e.cancelable) {
+    if (e.cancelable) {
       return;
     }
     const path = e.path || e.composedPath();
@@ -324,6 +380,21 @@ export class ArcSettingsBase extends LitElement {
     }
     this._settingsChanged(e.detail.name, e.detail.value);
   }
+  /**
+   * Default handler for a settings change event.
+   * Updates property value if it is defined in the static properties list.
+   * @param {String} key Property name
+   * @param {Boolean|String|Number} value A value to set.
+   */
+  _settingsChanged(key, value) {
+    const props = this.constructor.properties;
+    if (key in props) {
+      this.__settingsRestored = false;
+      this[key] = value;
+      this.__settingsRestored = true;
+    }
+  }
+
   /**
    * Toggles a boolean value from `anypoint-switch` change event.
    * @param {Event} e
@@ -349,5 +420,62 @@ export class ArcSettingsBase extends LitElement {
     const { value } = e.detail;
     this[name] = value;
     this.updateSetting(name, value);
+  }
+  /**
+   * Generates a template result for a line item with a switch.
+   * @param {Object} opts Item description:
+   * - label {String} - Required, list label
+   * - description {String} - Optional, description of the item
+   * - name {String} - Required, name of the property for checked state
+   * - disabled {Boolean} - Optional, disables the item
+   * @return {TemplateResult}
+   */
+  _switchTemplate(opts) {
+    const { compatibility } = this;
+    const checked = this[opts.name];
+    const twoLine = !!opts.description;
+    return html`<anypoint-item
+      class="clickable"
+      @click="${this._toggleOption}"
+      ?compatibility="${compatibility}"
+      ?disabled="${opts.disabled}"
+    >
+      <anypoint-item-body ?twoline="${twoLine}" ?compatibility="${compatibility}">
+        <div>${opts.label}</div>
+        ${twoLine? html`<div secondary>${opts.description}</div>` : ''}
+      </anypoint-item-body>
+      <anypoint-switch
+        tabindex="-1"
+        .checked="${checked}"
+        name="${opts.name}"
+        @checked-changed="${this._toogleBooleanValue}"
+        ?compatibility="${compatibility}"
+        ?disabled="${opts.disabled}"
+      ></anypoint-switch>
+    </anypoint-item>`;
+  }
+
+  /**
+   * Generates a template result for a line item with a switch.
+   * @param {Object} opts Item description:
+   * - label {String} - Required, list label
+   * - description {String} - Optional, description of the item
+   * - page {Number} - Required, index of the page to set.
+   * @return {TemplateResult}
+   */
+  _pageItemTemplate(opts) {
+    const { compatibility } = this;
+    const twoLine = !!opts.description;
+    return html`<anypoint-item
+      data-page="${opts.page}"
+      @click="${this._showPage}"
+      class="clickable"
+      ?compatibility="${compatibility}">
+      <anypoint-item-body ?twoline="${twoLine}" ?compatibility="${compatibility}">
+        <div>${opts.label}</div>
+        ${twoLine? html`<div secondary>${opts.description}</div>` : ''}
+      </anypoint-item-body>
+      <span class="panel-icon nav-away-icon">${arrowDropDown}</span>
+    </anypoint-item>`;
   }
 }

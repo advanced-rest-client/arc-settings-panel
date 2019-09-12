@@ -9,31 +9,28 @@ class DemoPage extends ArcDemoPage {
   constructor() {
     super();
     this.initObservableProperties([
-      'compatibility'
+      'compatibility',
+      'outlined',
+      'outlined'
     ]);
     this._componentName = 'view-settings-panel';
-    this.demoStates = ['Material', 'Anypoint'];
+    this.demoStates = ['Filled', 'Outlined', 'Anypoint'];
 
     this._demoStateHandler = this._demoStateHandler.bind(this);
   }
 
   _demoStateHandler(e) {
     const state = e.detail.value;
-    switch (state) {
-      case 0:
-        this.compatibility = false;
-        break;
-      case 1:
-        this.compatibility = true;
-        break;
-    }
+    this.outlined = state === 1;
+    this.compatibility = state === 2;
   }
 
   _demoTemplate() {
     const {
       demoStates,
       darkThemeActive,
-      compatibility
+      compatibility,
+      outlined
     } = this;
     return html`
       <section class="documentation-section">
@@ -50,6 +47,7 @@ class DemoPage extends ArcDemoPage {
         >
           <view-settings-panel
             ?compatibility="${compatibility}"
+            ?outlined="${outlined}"
             slot="content"></view-settings-panel>
         </arc-interactive-demo>
       </section>

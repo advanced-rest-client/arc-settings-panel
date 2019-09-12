@@ -13,7 +13,7 @@ the License.
 */
 import { html, css } from 'lit-element';
 import { ArcSettingsBase } from './ArcSettingsBase.js';
-import { arrowDropDown, arrowBack } from '@advanced-rest-client/arc-icons/ArcIcons.js';
+import { arrowBack } from '@advanced-rest-client/arc-icons/ArcIcons.js';
 import '@anypoint-web-components/anypoint-item/anypoint-item.js';
 import '@anypoint-web-components/anypoint-item/anypoint-item-body.js';
 import '@anypoint-web-components/anypoint-switch/anypoint-switch.js';
@@ -40,15 +40,15 @@ export class DataSettingsPanel extends ArcSettingsBase {
       /**
        * True when delete database request is being processed.
        */
-      deletingDatabases: { type: Boolean },
+      deletingDatabases: { type: Boolean, ignore: true },
       /**
        * History store enabled / disabled
        */
-      historyEnabled: { type: Boolean },
+      historyEnabled: { type: Boolean, default: true },
       /**
        * When set is renders "REST APIs" delete option.
        */
-      restApis: { type: Boolean }
+      restApis: { type: Boolean, ignore: true }
     };
   }
 
@@ -133,88 +133,30 @@ export class DataSettingsPanel extends ArcSettingsBase {
     });
   }
 
-  _processValues(values) {
-    if (typeof values.historyEnabled === 'undefined') {
-      values.historyEnabled = true;
-    } else {
-      values.historyEnabled = this._boolValue(values.historyEnabled);
-    }
-    return values;
-  }
-
-  _setSettings(values) {
-    this.__settingsRestored = false;
-    this.historyEnabled = values.historyEnabled;
-    this.__settingsRestored = true;
-  }
-
-  _settingsChanged(key, value) {
-    this.__settingsRestored = false;
-    switch (key) {
-      case 'historyEnabled':
-        this[key] = this._boolValue(value);
-        break;
-    }
-    this.__settingsRestored = true;
-  }
-
   _dataSettingsTemplate() {
-    const {
-      historyEnabled,
-      deletingDatabases,
-      compatibility
-    } = this;
     return html`<section>
       <h2 class="panel-title">Stored data</h2>
       <div class="card">
-        <anypoint-item
-          class="clickable"
-          @click="${this._toggleOption}"
-          ?compatibility="${compatibility}">
-          <anypoint-item-body twoline ?compatibility="${compatibility}">
-            <div>
-              Save history data
-            </div>
-            <div secondary>Automatically saves requests in a history</div>
-          </anypoint-item-body>
-          <anypoint-switch
-            tabindex="-1"
-            .checked="${historyEnabled}"
-            name="historyEnabled"
-            @checked-changed="${this._toogleBooleanValue}"
-            ?compatibility="${compatibility}"></anypoint-switch>
-        </anypoint-item>
-
-        <anypoint-item
-          data-page="1"
-          @click="${this._showPage}"
-          class="clickable"
-          ?compatibility="${compatibility}">
-          <anypoint-item-body twoline ?compatibility="${compatibility}">
-            <div>Save stored data to file</div>
-            <div secondary>Save history, saved requests and projects data to file.</div>
-          </anypoint-item-body>
-          <span class="panel-icon nav-away-icon">${arrowDropDown}</span>
-        </anypoint-item>
-
-        <anypoint-item
-          data-page="2"
-          @click="${this._showPage}"
-          class="clickable"
-          ?compatibility="${compatibility}">
-          <anypoint-item-body ?compatibility="${compatibility}">
-            <div>Clear stored data</div>
-          </anypoint-item-body>
-          <span
-            class="panel-icon nav-away-icon"
-            ?hidden="${deletingDatabases}">${arrowDropDown}</span>
-        </anypoint-item>
+        ${this._switchTemplate({
+          label: 'Save history data',
+          description: 'Automatically saves requests in a history',
+          name: 'historyEnabled'
+        })}
+        ${this._pageItemTemplate({
+          label: 'Data export options',
+          description: 'Save history, saved requests and projects data to file',
+          page: 1
+        })}
+        ${this._pageItemTemplate({
+          label: 'Data cleanup',
+          page: 2
+        })}
       </div>
     </section>`;
   }
 
   _exportTemplate() {
-    const { restApis, compatibility } = this;
+    const { restApis, compatibility, outlined } = this;
     return html`<section>
       <h2 class="panel-title">
         <anypoint-icon-button
@@ -227,7 +169,8 @@ export class DataSettingsPanel extends ArcSettingsBase {
       <div class="card with-border with-padding">
         <export-form
           ?restapis="${restApis}"
-          ?compatibility="${compatibility}"></export-form>
+          ?compatibility="${compatibility}"
+          ?outlined="${outlined}"></export-form>
       </div>
     </section>`;
   }

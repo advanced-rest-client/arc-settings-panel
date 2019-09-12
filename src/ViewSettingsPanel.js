@@ -25,7 +25,7 @@ export class ViewSettingsPanel extends ArcSettingsBase {
       /**
        * Current setting value for list types.
        */
-      viewListType: { type: String }
+      viewListType: { type: String, default: 'default' }
     };
   }
 
@@ -43,39 +43,15 @@ export class ViewSettingsPanel extends ArcSettingsBase {
     }));
   }
 
-  _processValues(values) {
-    if (typeof values.viewListType === 'undefined') {
-      values.viewListType = 'default';
-    } else {
-      values.viewListType = String(values.viewListType);
-    }
-    return values;
-  }
-
-  _setSettings(values) {
-    this.__settingsRestored = false;
-    this.viewListType = values.viewListType;
-    this.__settingsRestored = true;
-  }
-
-  _settingsChanged(key, value) {
-    this.__settingsRestored = false;
-    switch (key) {
-      case 'viewListType':
-        this[key] = value;
-        break;
-    }
-    this.__settingsRestored = true;
-  }
-
   render() {
-    const { viewListType, compatibility } = this;
+    const { viewListType, compatibility, outlined } = this;
     return html`
     <h2 class="panel-title">View settings</h2>
     <div class="card">
       <div class="layout-selector">
         <anypoint-dropdown-menu
           ?compatibility="${compatibility}"
+          ?outlined="${outlined}"
           name="viewListType">
           <label slot="label">Lists layout</label>
           <anypoint-listbox

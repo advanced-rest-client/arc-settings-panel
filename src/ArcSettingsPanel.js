@@ -9,6 +9,7 @@ import '../request-settings-panel.js';
 import '../data-settings-panel.js';
 import '../privacy-settings-panel.js';
 import '../view-settings-panel.js';
+import '../electron-experiments-settings-panel.js';
 /**
  * Settings panel for Advanced REST Client - electron app.
  *
@@ -84,7 +85,9 @@ export class ArcSettingsPanel extends ArcSettingsBase {
        * When set REST APIs are supported in the application.
        */
       restApis: { type: Boolean },
-
+      /**
+       * When set it renders experiments tab for Electron app.
+       */
       hasExperiments: { type: Boolean }
     };
   }
@@ -129,10 +132,11 @@ export class ArcSettingsPanel extends ArcSettingsBase {
   }
 
   _listTemplate() {
-    const { selected, hasExperiments, compatibility } = this;
+    const { selected, hasExperiments, compatibility, outlined } = this;
     return html`
     <anypoint-dropdown-menu
       ?compatibility="${compatibility}"
+      ?outlined="${outlined}"
       name="viewListType">
       <label slot="label">Settings page</label>
       <anypoint-listbox
@@ -150,41 +154,46 @@ export class ArcSettingsPanel extends ArcSettingsBase {
   }
 
   _requestTemplate() {
-    const { systemVariablesDisabled, compatibility } = this;
+    const { systemVariablesDisabled, compatibility, outlined } = this;
     return html`<request-settings-panel
       data-settings="true"
       ?systemVariablesDisabled="${systemVariablesDisabled}"
-      ?compatibility="${compatibility}"></request-settings-panel>`;
+      ?compatibility="${compatibility}"
+      ?outlined="${outlined}"></request-settings-panel>`;
   }
 
   _dataTemplate() {
-    const { restApis, compatibility } = this;
+    const { restApis, compatibility, outlined } = this;
     return html`<data-settings-panel
       data-settings="true"
       ?restApis="${restApis}"
-      ?compatibility="${compatibility}"></data-settings-panel>`;
+      ?compatibility="${compatibility}"
+      ?outlined="${outlined}"></data-settings-panel>`;
   }
 
   _privacyTemplate() {
-    const { privacyPolicyUrl, compatibility } = this;
+    const { privacyPolicyUrl, compatibility, outlined } = this;
     return html`<privacy-settings-panel
       data-settings="true"
       ?privacyPolicyUrl="${privacyPolicyUrl}"
-      ?compatibility="${compatibility}"></privacy-settings-panel>`;
+      ?compatibility="${compatibility}"
+      ?outlined="${outlined}"></privacy-settings-panel>`;
   }
 
   _viewTemplate() {
-    const { compatibility } = this;
+    const { compatibility, outlined } = this;
     return html`<view-settings-panel
       data-settings="true"
-      ?compatibility="${compatibility}"></view-settings-panel>`;
+      ?compatibility="${compatibility}"
+      ?outlined="${outlined}"></view-settings-panel>`;
   }
 
   _experimentsTemplate() {
-    const { compatibility } = this;
-    return html`<experiments-settings-panel
+    const { compatibility, outlined } = this;
+    return html`<electron-experiments-settings-panel
       data-settings="true"
-      ?compatibility="${compatibility}"></experiments-settings-panel>`;
+      ?compatibility="${compatibility}"
+      ?outlined="${outlined}"></electron-experiments-settings-panel>`;
   }
 
   _pageTemplate() {
