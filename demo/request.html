@@ -4,26 +4,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
-  <title>ARC settings demo</title>
+  <title>ARC request settings demo</title>
   <style>
-  html {
-    --arc-font-subhead-font-size: 16px;
-    --arc-font-subhead-font-weight: 400;
-    --arc-font-subhead-line-height: 24px;
-  }
-
-  .centered[role="main"] {
-    max-width: 1400px;
-  }
-
-  arc-settings-panel {
-    width: 700px;
-    margin: 12px 0;
-  }
-
   body.styled {
     --anypoiont-dropdown-shaddow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
-    --primary-color: #00A2DF;
     --arc-font-body1-font-size: 14px;
     --arc-font-body1-font-weight: 400;
     --arc-font-body1-line-height: 20px;
@@ -94,12 +78,21 @@
     --anypoint-switch-toggle-background-color: var(--anypoint-color-steel3);
     --anypoint-switch-toggle-focus-background-color: var(--anypoint-color-steel1);
   }
+
+  .centered[role="main"] {
+    max-width: 1400px;
+  }
+
+  request-settings-panel {
+    width: 700px;
+    margin: 12px 0;
+  }
   </style>
 </head>
 
 <body>
   <div id="demo"></div>
-  <script type="module" src="index.js"></script>
+  <script type="module" src="request.js"></script>
 </body>
 
 </html>

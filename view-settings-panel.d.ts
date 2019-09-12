@@ -5,10 +5,10 @@
  *   https://github.com/Polymer/tools/tree/master/packages/gen-typescript-declarations
  *
  * To modify these typings, edit the source file(s):
- *   arc-settings-panel.js
+ *   view-settings-panel.js
  */
 
 
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 
-import {ArcSettingsPanel} from './src/ArcSettingsPanel.js';
+import {ViewSettingsPanel} from './src/ViewSettingsPanel.js';
