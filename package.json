@@ -1,7 +1,7 @@
 {
   "name": "@advanced-rest-client/arc-settings-panel",
   "description": "Advanced REST CLient settings screen",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "license": "Apache-2.0",
   "main": "arc-settings-pane.js",
   "keywords": [
@@ -16,10 +16,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/advanced-rest-client/arc-settings-pane.git"
+    "url": "git://github.com/advanced-rest-client/arc-settings-panel.git"
   },
   "bugs": {
-    "url": "https://github.com/advanced-rest-client/arc-settings-pane/issues",
+    "url": "https://github.com/advanced-rest-client/arc-settings-panel/issues",
     "email": "arc@mulesoft.com"
   },
   "dependencies": {
