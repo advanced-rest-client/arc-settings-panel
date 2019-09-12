@@ -1,0 +1,99 @@
+<!DOCTYPE html><html><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+  <title>arc-settings-panel demo</title>
+
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="../../../web-animations-js/web-animations-next.min.js"></script>
+
+  <script type="module" src="../../../@webcomponents/shadycss/entrypoints/apply-shim.js"></script>
+  <script type="module" src="../../../@polymer/polymer/lib/elements/custom-style.js"></script>
+  <script type="module" src="../../../@polymer/polymer/lib/elements/dom-bind.js"></script>
+  <script type="module" src="../../../@polymer/iron-demo-helpers/demo-pages-shared-styles.js"></script>
+  <script type="module" src="../../../@polymer/iron-demo-helpers/demo-snippet.js"></script>
+  <script type="module" src="../../../@advanced-rest-client/arc-data-export/arc-data-export.js"></script>
+  <script type="module" src="../../../@advanced-rest-client/arc-models/arc-models.js"></script>
+  <script type="module" src="../../../@advanced-rest-client/arc-models/auth-data-model.js"></script>
+  <script type="module" src="../../../@advanced-rest-client/arc-models/host-rules-model.js"></script>
+  <script type="module" src="../../../@polymer/paper-toast/paper-toast.js"></script>
+  <script type="module" src="../../../@advanced-rest-client/arc-electron-default-theme/arc-electron-default-theme.js"></script>
+  <script type="module" src="../../../@advanced-rest-client/arc-local-store-preferences/arc-local-store-preferences.js"></script>
+  <script type="module" src="../../../@polymer/paper-toggle-button/paper-toggle-button.js"></script>
+  <script type="module" src="../arc-settings-panel.js"></script>
+
+  <style>
+  body,
+  html {
+    background-color: #e5e5e5 !important;
+    margin: 0;
+    padding: 0;
+  }
+  .centered.demo {
+    background-color: #fff;
+    padding: 24px;
+    max-width: 1000px;
+  }
+  </style>
+  <custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles"></style>
+  </custom-style>
+</head>
+<body unresolved="">
+  <dom-bind id="demo">
+    <template>
+      <arc-data-export></arc-data-export>
+      <project-model></project-model>
+      <request-model></request-model>
+      <auth-data-model></auth-data-model>
+      <url-history-model></url-history-model>
+      <websocket-url-history-model></websocket-url-history-model>
+      <rest-api-model></rest-api-model>
+      <variables-model></variables-model>
+      <host-rules-model></host-rules-model>
+      <arc-local-store-preferences></arc-local-store-preferences>
+
+      <section class="centered demo">
+        <h2>Panel options</h2>
+        <paper-toggle-button checked="{{narrow}}">Narrow view</paper-toggle-button>
+        <paper-toggle-button checked="{{systemVariablesDisabled}}">System variables disabled</paper-toggle-button>
+        <paper-toggle-button checked="{{restApis}}">REST APIs supported</paper-toggle-button>
+      </section>
+
+      <section class="centered demo" rel="main">
+        <arc-settings-panel narrow="[[narrow]]" system-variables-disabled="[[systemVariablesDisabled]]" rest-apis="[[restApis]]">
+          <div data-title="Custom">
+            <p>This is custom panel</p>
+          </div>
+          <div data-title="Other">
+            <p>This is other custom panel</p>
+          </div>
+        </arc-settings-panel>
+      </section>
+
+      <paper-toast text="Drive export requested" id="driveToast"></paper-toast>
+      <paper-toast text="File export requested" id="fileToast"></paper-toast>
+    </template>
+  </dom-bind>
+  <script type="module">
+    import '../../../pouchdb/dist/pouchdb.js';
+    (function(scope) {
+      scope._fileExportHandler = function(e) {
+        e.preventDefault();
+        e.detail.result = new Promise((resolve) => {
+          setTimeout(() => resolve(), 1000);
+        });
+        scope.$.fileToast.opened = true;
+      };
+      scope._driveExportHandler = function(e) {
+        e.preventDefault();
+        e.detail.result = new Promise((resolve) => {
+          setTimeout(() => resolve(), 1000);
+        });
+        scope.$.driveToast.opened = true;
+      };
+      window.addEventListener('file-data-save', scope._fileExportHandler);
+      window.addEventListener('google-drive-data-save', scope._driveExportHandler);
+    })(document.getElementById('demo'));
+  </script>
+</body></html>
