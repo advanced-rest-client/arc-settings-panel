@@ -108,3 +108,12 @@
 
 
 
+# [3.0.0](https://github.com/advanced-rest-client/arc-settings-pane/compare/0.2.5...3.0.0) (2019-09-12)
+
+
+### Bug Fixes
+
+* fixing package name ([de8d7f8](https://github.com/advanced-rest-client/arc-settings-pane/commit/de8d7f8))
+
+
+
