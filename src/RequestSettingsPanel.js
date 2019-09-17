@@ -55,7 +55,11 @@ export class RequestSettingsPanel extends ArcSettingsBase {
       /**
        * Ignore `content-*` headers when making GET request
        */
-      ignoreContentOnGet: { type: Boolean, default: false }
+      ignoreContentOnGet: { type: Boolean, default: false },
+      /**
+       * Creates default headers fro user-agent and accept.
+       */
+      defaultHeaders: { type: Boolean, default: true },
     };
   }
 
@@ -119,6 +123,12 @@ export class RequestSettingsPanel extends ArcSettingsBase {
     } else {
       values.ignoreContentOnGet = this._boolValue(values.ignoreContentOnGet);
     }
+
+    if (typeof values.defaultHeaders === 'undefined') {
+      values.defaultHeaders = true;
+    } else {
+      values.defaultHeaders = this._boolValue(values.defaultHeaders);
+    }
     return values;
   }
 
@@ -160,6 +170,11 @@ export class RequestSettingsPanel extends ArcSettingsBase {
           label: 'Ignore content related headers for GET request',
           description: 'Ignore all Content-* headers when making a GET request.',
           name: 'ignoreContentOnGet'
+        })}
+        ${this._switchTemplate({
+          label: 'Default request headers',
+          description: 'Adds user-agent and accept headers, like cURL does.',
+          name: 'defaultHeaders'
         })}
       </div>
     </section>`;
