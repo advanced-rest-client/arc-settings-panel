@@ -127,3 +127,18 @@
 
 
 
+## [3.0.2](https://github.com/advanced-rest-client/arc-settings-panel/compare/0.2.5...3.0.2) (2019-09-17)
+
+
+### Bug Fixes
+
+* fixing package name ([de8d7f8](https://github.com/advanced-rest-client/arc-settings-panel/commit/de8d7f8))
+* fixing repository URL in package.json file ([87116f7](https://github.com/advanced-rest-client/arc-settings-panel/commit/87116f7))
+
+
+### Features
+
+* adding new `defaultHeaders` setting ([4504670](https://github.com/advanced-rest-client/arc-settings-panel/commit/4504670))
+
+
+
