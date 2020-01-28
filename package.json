@@ -43,7 +43,7 @@
     "@advanced-rest-client/arc-models": "^3.1.0",
     "@advanced-rest-client/eslint-config": "^1.1.4",
     "@advanced-rest-client/prettier-config": "^0.1.0",
-    "@advanced-rest-client/testing-karma-sl": "^1.1.0",
+    "@advanced-rest-client/testing-karma-sl": "^1.2.0",
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
     "@open-wc/testing": "^2.5.1",
@@ -61,7 +61,7 @@
     "test": "karma start --coverage",
     "update-types": "gen-typescript-declarations --deleteExisting --outDir .",
     "start": "es-dev-server --app-index demo/index.html --node-resolve --open --watch",
-    "start:compatibility": "es-dev-server --app-index demo/index.html --compatibility all --node-resolve --open --watch",
+    "start:compatibility": "es-dev-server --app-index demo/index.html --compatibility auto --node-resolve --open --watch",
     "lint:eslint": "eslint --ext .js,.html .",
     "format:eslint": "eslint --ext .js,.html . --fix",
     "lint:prettier": "prettier \"**/*.js\" --list-different || (echo '↑↑ these files are not prettier formatted ↑↑' && exit 1)",
@@ -69,9 +69,9 @@
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "format": "npm run format:eslint && npm run format:prettier",
     "test:watch": "karma start --auto-watch=true --single-run=false",
-    "test:legacy": "karma start --compatibility all --coverage",
-    "test:legacy:watch": "karma start --compatibility all --auto-watch=true --single-run=false",
-    "test:sl": "karma start karma.sl.config.js --compatibility all --coverage"
+    "test:legacy": "karma start --compatibility auto --coverage",
+    "test:legacy:watch": "karma start --compatibility auto --auto-watch=true --single-run=false",
+    "test:sl": "karma start karma.sl.config.js --compatibility auto --coverage"
   },
   "lint-staged": {
     "*.js": [
