@@ -60,6 +60,10 @@ export class RequestSettingsPanel extends ArcSettingsBase {
        * Creates default headers fro user-agent and accept.
        */
       defaultHeaders: { type: Boolean, default: true },
+      /**
+       * Ignores automatic set of cookies from a cookie storage
+       */
+      ignoreSessionCookies: { type: Boolean, default: false },
     };
   }
 
@@ -129,6 +133,12 @@ export class RequestSettingsPanel extends ArcSettingsBase {
     } else {
       values.defaultHeaders = this._boolValue(values.defaultHeaders);
     }
+
+    if (typeof values.ignoreSessionCookies === 'undefined') {
+      values.ignoreSessionCookies = false;
+    } else {
+      values.ignoreSessionCookies = this._boolValue(values.ignoreSessionCookies);
+    }
     return values;
   }
 
@@ -175,6 +185,11 @@ export class RequestSettingsPanel extends ArcSettingsBase {
           label: 'Default request headers',
           description: 'Adds user-agent and accept headers, like cURL does.',
           name: 'defaultHeaders'
+        })}
+        ${this._switchTemplate({
+          label: 'Disable automatic cookies',
+          description: 'Disables adding automatic cookies to the request.',
+          name: 'ignoreSessionCookies'
         })}
       </div>
     </section>`;

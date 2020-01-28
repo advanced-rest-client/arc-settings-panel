@@ -50,7 +50,8 @@ describe('<request-settings-panel>', function() {
       ['system variables', 3, 'systemVariablesEnabled'],
       ['redirects', 4, 'followRedirects'],
       ['Ignore content headers for GET', 5, 'ignoreContentOnGet'],
-      ['Default request headers', 6, 'defaultHeaders']
+      ['Default request headers', 6, 'defaultHeaders'],
+      ['Ignore auto cookies', 7, 'ignoreSessionCookies'],
     ].forEach((item) => {
       it(`Toggles ${item[0]}`, function() {
         const node = element.shadowRoot.querySelectorAll('anypoint-item')[item[1]];
@@ -107,7 +108,8 @@ describe('<request-settings-panel>', function() {
       ['systemVariablesEnabled', true],
       ['requestDefaultTimeout', 10],
       ['ignoreContentOnGet', true],
-      ['defaultHeaders', true]
+      ['defaultHeaders', true],
+      ['ignoreSessionCookies', true],
     ].forEach((item) => {
       it(`Updates value for ${item[0]}`, function() {
         fire(item[0], item[1]);
@@ -148,6 +150,10 @@ describe('<request-settings-panel>', function() {
       ['defaultHeaders', true, true],
       ['defaultHeaders', false, false],
       ['defaultHeaders', 'false', false],
+      ['ignoreSessionCookies', undefined, false],
+      ['ignoreSessionCookies', true, true],
+      ['ignoreSessionCookies', false, false],
+      ['ignoreSessionCookies', 'true', true],
     ].forEach((item) => {
       it(`Sets value of ${item[0]} when ${item[1]}`, () => {
         const values = {};
@@ -176,7 +182,8 @@ describe('<request-settings-panel>', function() {
       ['systemVariablesEnabled', false],
       ['oauth2redirectUri', 'https://auth.domain.com'],
       ['ignoreContentOnGet', false],
-      ['defaultHeaders', false]
+      ['defaultHeaders', false],
+      ['ignoreSessionCookies', true],
     ].forEach((item) => {
       it(`Sets value of ${item[0]}`, () => {
         const values = {};
@@ -199,7 +206,8 @@ describe('<request-settings-panel>', function() {
       'followRedirects',
       'systemVariablesEnabled',
       'ignoreContentOnGet',
-      'defaultHeaders'
+      'defaultHeaders',
+      'ignoreSessionCookies',
     ].forEach((item) => {
       it(`changes value for ${item}`, async () => {
         const node = element.shadowRoot.querySelector(`anypoint-switch[name="${item}"]`);
