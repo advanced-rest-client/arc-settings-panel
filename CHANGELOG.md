@@ -221,3 +221,36 @@
  [32b62d1](https://github.com/advanced-rest-client/arc-settings-panel/commit/32b62d18b0be612efc54b2ae152bec5184d04a33) by Pawel Psztyc
 
 
+<a name="4.0.1"></a>
+## [4.0.1](https://github.com/advanced-rest-client/arc-settings-panel/compare/3.0.2...4.0.1) (2020-03-31)
+
+### Build
+
+* bumping version [442d568](https://github.com/advanced-rest-client/arc-settings-panel/commit/442d5689e247cf335108a5cf8dd72b8e1f897c29) by Pawel
+* bumping version [867378d](https://github.com/advanced-rest-client/arc-settings-panel/commit/867378da6bd90ba1f7cf25c7f82249f52b4a99aa) by Pawel Psztyc
+
+
+### Continuous integration
+
+* updating Travis configuration [b9cb7dd](https://github.com/advanced-rest-client/arc-settings-panel/commit/b9cb7ddd302e434452bfa4b8ccdaa929a1efb099) by Pawel Psztyc
+
+
+### Update
+
+* upgrading dependencies [7e6c597](https://github.com/advanced-rest-client/arc-settings-panel/commit/7e6c5970a97816b3aee24dcb2c076425c1527215) by Pawel
+* [ci skip] automated merge master->stage. syncing main branches [e591561](https://github.com/advanced-rest-client/arc-settings-panel/commit/e591561f25eee1c1b2e4a57e12e8d62c70a8f7e8) by Ci agent
+* upgrading dependencies [1cf10e7](https://github.com/advanced-rest-client/arc-settings-panel/commit/1cf10e7123673ed3ce095c8883ce511eb362b4e0) by Pawel Psztyc
+
+
+### Features
+
+* adding "fastSearch" data setting [09d7362](https://github.com/advanced-rest-client/arc-settings-panel/commit/09d7362ef1f5b096446b5fe5a01105c6b864ce7e) by Pawel
+* adding new `ignoreSessionCookies` option [212632f](https://github.com/advanced-rest-client/arc-settings-panel/commit/212632fc6478f8bf4b602936c55e49bd490a45d2) by Pawel Psztyc
+
+
+### Testing
+
+* updated Travis configuration to connect to Sauce Labs [a1d9ceb](https://github.com/advanced-rest-client/arc-settings-panel/commit/a1d9cebb44a817d9137df204516c077cc132d109) by Pawel
+* upgradig tests configuration [ff8e6e1](https://github.com/advanced-rest-client/arc-settings-panel/commit/ff8e6e1d675040ea5dfa0345df23304507d5c55e) by Pawel Psztyc
+
+
