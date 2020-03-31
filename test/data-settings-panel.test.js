@@ -1,6 +1,6 @@
 import { fixture, assert, nextFrame, aTimeout } from '@open-wc/testing';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions.js';
-import * as sinon from 'sinon/pkg/sinon-esm.js';
+import * as sinon from 'sinon';
 import '@advanced-rest-client/arc-local-store-preferences/arc-local-store-preferences.js';
 import '../data-settings-panel.js';
 
@@ -30,7 +30,8 @@ describe('<data-settings-panel>', function() {
     });
 
     [
-      ['history data', 0, 'historyEnabled']
+      ['history data', 0, 'historyEnabled'],
+      ['fast search', 1, 'fastSearch'],
     ].forEach((item) => {
       it(`Toggles ${item[0]}`, function() {
         const node = element.shadowRoot.querySelectorAll('anypoint-item.clickable')[item[1]];
@@ -73,7 +74,8 @@ describe('<data-settings-panel>', function() {
       document.body.dispatchEvent(ev);
     }
     [
-      ['historyEnabled', true]
+      ['historyEnabled', true],
+      ['fastSearch', true],
     ].forEach((item) => {
       it(`Updates value for ${item[0]}`, function() {
         fire(item[0], item[1]);
@@ -92,7 +94,11 @@ describe('<data-settings-panel>', function() {
       ['historyEnabled', undefined, true],
       ['historyEnabled', true, true],
       ['historyEnabled', false, false],
-      ['historyEnabled', 'false', false]
+      ['historyEnabled', 'false', false],
+      ['fastSearch', undefined, false],
+      ['fastSearch', true, true],
+      ['fastSearch', false, false],
+      ['fastSearch', 'false', false]
     ].forEach((item) => {
       it(`Sets value of ${item[0]} when ${item[1]}`, () => {
         const values = {};
@@ -111,7 +117,9 @@ describe('<data-settings-panel>', function() {
 
     [
       ['historyEnabled', true],
-        ['historyEnabled', false]
+      ['historyEnabled', false],
+      ['fastSearch', true],
+      ['fastSearch', false],
     ].forEach((item) => {
       it(`Sets value of ${item[0]}`, () => {
         const values = {};

@@ -48,7 +48,11 @@ export class DataSettingsPanel extends ArcSettingsBase {
       /**
        * When set is renders "REST APIs" delete option.
        */
-      restApis: { type: Boolean, ignore: true }
+      restApis: { type: Boolean, ignore: true },
+      /**
+       * When set it performs fast search in the requests store
+       */
+      fastSearch: { type: Boolean, default: false },
     };
   }
 
@@ -141,6 +145,11 @@ export class DataSettingsPanel extends ArcSettingsBase {
           label: 'Save history data',
           description: 'Automatically saves requests in a history',
           name: 'historyEnabled'
+        })}
+        ${this._switchTemplate({
+          label: 'Fast history search',
+          description: 'Performs less accurate but faster history and saved search',
+          name: 'fastSearch'
         })}
         ${this._pageItemTemplate({
           label: 'Data export options',
